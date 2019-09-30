@@ -9,3 +9,10 @@
 | s24.kron.edgelist.bin | 16,777,216 | 268,435,456 |
 
 The label of the node starts from 0 to |V| - 1.
+
+程序运行方式
+每个参赛组提交的程序将会以如下格式的命令运行、进行评测:
+程序输入：-f 图数据文件（格式见表1和表2）
+程序输出：
+必须输出图数据文件中三角形个数的统计结果
+输出格式： There are ?? triangles in the input graph.

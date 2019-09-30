@@ -1,3 +1,4 @@
+#include <iostream>
 #include "counting.h"
 #include "test_tools.h"
 #include "io.h"
@@ -24,8 +25,15 @@ void test_io(){
     }
 }
 
+void test_get_node_num(){
+    unsigned int node_num = count_nodes("test_io.bin");
+    check(node_num == 3, "test_get_node_num fails");
+}
+
 int main(){
     test_alg();
     test_io();
+    test_get_node_num();
+    std::cout << "All test passed" << std::endl;
     return 0;
 }

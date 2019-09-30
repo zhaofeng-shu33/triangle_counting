@@ -2,3 +2,4 @@
 
 using namespace lemon;
 void construct_graph_from_bin(ListGraph& G, const char* file_name, int node_size);
+unsigned int count_nodes(const char* file_name);
