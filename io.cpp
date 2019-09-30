@@ -18,6 +18,7 @@ void construct_graph_from_bin(ListGraph& G, const char* file_name, int node_size
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
     int edge_size = get_edge(fin);
     G.reserveNode(node_size);
+    G.reserveEdge(edge_size);
 #if VERBOSE
     std::cout << "Number of Nodes: " << node_size << std::endl;
     std::cout << "Number of Edges: " << edge_size << std::endl;
@@ -33,6 +34,10 @@ void construct_graph_from_bin(ListGraph& G, const char* file_name, int node_size
         u = (unsigned int*)u_array;
         v = (unsigned int*)v_array;
         G.addEdge(G.nodeFromId(*u), G.nodeFromId(*v));
+#if VERBOSE
+    if(i % 1000000 == 1)
+        std::cout << i << " edges added" << std::endl;
+#endif        
     }
     fin.close();
 #if VERBOSE

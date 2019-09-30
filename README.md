@@ -16,3 +16,6 @@ The label of the node starts from 0 to |V| - 1.
 程序输出：
 必须输出图数据文件中三角形个数的统计结果
 输出格式： There are ?? triangles in the input graph.
+
+## Our program
+We use a naive method to count the triangles in the graph. The basic routine is a single thread counting function.

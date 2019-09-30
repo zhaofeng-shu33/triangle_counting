@@ -15,16 +15,16 @@ int triangle_count_given_edge(const ListGraph& G, const ListGraph::Edge& e, cons
     return t_count;
 }
 
-int triangle_count(const ListGraph& G){
+unsigned long triangle_count(const ListGraph& G){
     ArcLookUp<ListGraph> look_up(G);
-    int triangle_sum = 0;
+    unsigned long triangle_sum = 0;
 #if VERBOSE
     int iteration_cnt = 0;
 #endif        
     for(ListGraph::EdgeIt e(G); e != INVALID; ++e){
         triangle_sum += triangle_count_given_edge(G, e, look_up);
 #if VERBOSE
-    if(iteration_cnt % 100000 == 1)
+    if(iteration_cnt % 500000 == 1)
         std::cout << iteration_cnt << " edges processed" << std::endl;
     iteration_cnt ++;
 #endif

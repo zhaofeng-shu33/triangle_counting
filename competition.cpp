@@ -31,7 +31,7 @@ int main(int argc, char** argv){
         exit(-1);
     }
     construct_graph_from_bin(G, argv[2], num_nodes);
-    int tc = triangle_count(G);
+    unsigned long tc = triangle_count(G);
     std::cout << "There are " << tc << " triangles in the input graph." << std::endl;
     return 0;
 }
