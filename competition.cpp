@@ -2,13 +2,13 @@
 #include <cstring>
 #include "io.h"
 #include "counting.h"
-int get_nodes(const char* filename){
+unsigned int get_nodes(const char* filename){
     if(strcmp(filename, "soc-LiveJournal1.bin") == 0)
         return 4847571;
     else if(strcmp(filename, "s24.kron.edgelist.bin") == 0)
         return 16777216;
     else
-        return -1;
+        return count_nodes(filename);
 }
 int main(int argc, char** argv){
     if(argc != 3 || strcmp(argv[1], "-f") != 0){
@@ -25,12 +25,12 @@ int main(int argc, char** argv){
         exit(-1);
     }
     ListGraph G;
-    int num_nodes = get_nodes(argv[2]);
+    unsigned int num_nodes = get_nodes(argv[2]);
     if(num_nodes == -1){
         std::cout <<" not supported file " << argv[2] << std::endl;
         exit(-1);
     }
-    construct_graph_from_bin(G, argv[2], 3);
+    construct_graph_from_bin(G, argv[2], num_nodes);
     int tc = triangle_count(G);
     std::cout << "There are " << tc << " triangles in the input graph." << std::endl;
     return 0;
