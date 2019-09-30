@@ -13,5 +13,6 @@ $(BUILD_DIR)/counting.o: $(BUILD_DIR) counting.cpp
 $(BUILD_DIR)/test.o: test.cpp
 	g++ -c test.cpp -o $(BUILD_DIR)/test.o
 
+# we only use the header only feature of library lemon, no need to pass -llemon etc.
 $(BUILD_DIR)/test: $(BUILD_DIR)/test.o $(BUILD_DIR)/counting.o
 	g++ $(BUILD_DIR)/test.o $(BUILD_DIR)/counting.o -o $(BUILD_DIR)/test
