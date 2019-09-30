@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+project(triangle_counting)
+add_library(utility io.cpp)
+add_library(algorithm counting.cpp)
+add_executable(test_alg test.cpp)
+target_link_libraries(test_alg utility algorithm)

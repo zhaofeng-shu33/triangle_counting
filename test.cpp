@@ -1,7 +1,7 @@
 #include "counting.h"
 #include "test_tools.h"
-
-int main(){
+#include "io.h"
+void test_alg(){
     ListGraph G;
     ListGraph::Node n1 = G.addNode();
     ListGraph::Node n2 = G.addNode();
@@ -11,5 +11,15 @@ int main(){
     G.addEdge(n1, n3);
     int tc = triangle_count(G);
     check(tc == 1, "");
+}
+void test_io(){
+    ListGraph G;
+    construct_graph_from_bin(G, "test_io.bin", 3);
+    check(countEdges(G) == 3, "");
+}
+
+int main(){
+    test_alg();
+    test_io();
     return 0;
 }
