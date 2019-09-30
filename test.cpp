@@ -16,6 +16,12 @@ void test_io(){
     ListGraph G;
     construct_graph_from_bin(G, "test_io.bin", 3);
     check(countEdges(G) == 3, "test_io fails");
+    try{
+        construct_graph_from_bin(G, "test_io_false.bin", 3);
+    }
+    catch(std::logic_error e){
+        std::cout << "catched error with messge:" << std::endl << e.what() << std::endl;
+    }
 }
 
 int main(){

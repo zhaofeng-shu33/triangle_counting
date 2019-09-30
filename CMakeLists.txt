@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(triangle_counting)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(utility io.cpp)
 add_library(algorithm counting.cpp)
 add_executable(test_alg test.cpp)
