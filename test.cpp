@@ -15,7 +15,7 @@ void test_alg(){
 void test_io(){
     ListGraph G;
     construct_graph_from_bin(G, "test_io.bin", 3);
-    check(countEdges(G) == 3, "");
+    check(countEdges(G) == 3, "test_io fails");
 }
 
 int main(){
