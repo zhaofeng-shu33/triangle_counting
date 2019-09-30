@@ -1,6 +1,9 @@
 #include "io.h"
 #include <string>
 #include <fstream>
+#if VERBOSE
+#include <iostream>
+#endif  
 int get_edge(std::ifstream& fin){
     fin.seekg(0, fin.end);
     int edge_size = fin.tellg();
@@ -15,6 +18,10 @@ void construct_graph_from_bin(ListGraph& G, const char* file_name, int node_size
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
     int edge_size = get_edge(fin);
     G.reserveNode(node_size);
+#if VERBOSE
+    std::cout << "Number of Nodes: " << node_size << std::endl;
+    std::cout << "Number of Edges: " << edge_size << std::endl;
+#endif
     for(int i = 0; i < node_size; i++){
         G.addNode();
     }
@@ -28,6 +35,9 @@ void construct_graph_from_bin(ListGraph& G, const char* file_name, int node_size
         G.addEdge(G.nodeFromId(*u), G.nodeFromId(*v));
     }
     fin.close();
+#if VERBOSE
+    std::cout << "Graph construction finished" << std::endl;
+#endif
 }
 
 unsigned int count_nodes(const char* file_name){
