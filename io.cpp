@@ -33,6 +33,7 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
     char u_array[4], v_array[4];
     unsigned int *u, *v;
     std::map<int, int> kv_map; 
+    std::map<std::pair<int,int>, bool> arc_exist_map;
     int node_id = 1;
     for(int i = 0; i < file_size; i++){
         fin.read(u_array, 4);
@@ -49,9 +50,20 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
             v_id = node_id;
             node_id ++;
         }
-        if(u_id >= v_id)
-            continue;
-        arcs.push_back(std::make_pair(u_id -1 , v_id - 1));
+        if(u_id < v_id){
+            bool& arc_exist = arc_exist_map[std::make_pair(u_id, v_id)];
+            if(arc_exist)
+                continue;
+            arc_exist = true;
+            arcs.push_back(std::make_pair(u_id -1 , v_id - 1));
+        }
+        else if(u_id > v_id){
+            bool& arc_exist = arc_exist_map[std::make_pair(v_id, u_id)];
+            if(arc_exist)
+                continue;
+            arc_exist = true;            
+            arcs.push_back(std::make_pair(v_id - 1 , u_id - 1));
+        }
     }
     fin.close();
     G.build(node_size, arcs.begin(), arcs.end());
