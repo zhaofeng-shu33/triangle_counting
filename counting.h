@@ -1,3 +1,2 @@
-#include <lemon/list_graph.h>
-using namespace lemon;
-unsigned long triangle_count(const ListGraph& G);
+#include "config.h"
+unsigned long triangle_count(const Graph& G);

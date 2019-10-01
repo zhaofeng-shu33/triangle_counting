@@ -13,7 +13,7 @@ int get_edge(std::ifstream& fin){
     }
     return edge_size / 8;
 }
-void construct_graph_from_bin(ListGraph& G, const char* file_name, int node_size){
+void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
     int edge_size = get_edge(fin);

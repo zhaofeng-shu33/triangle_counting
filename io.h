@@ -1,5 +1,4 @@
-#include <lemon/list_graph.h>
+#include "config.h"
 
-using namespace lemon;
-void construct_graph_from_bin(ListGraph& G, const char* file_name, int node_size);
+void construct_graph_from_bin(Graph& G, const char* file_name, int node_size);
 unsigned int count_nodes(const char* file_name);

@@ -24,7 +24,7 @@ int main(int argc, char** argv){
         std::cout << "file " << argv[2] << " does not exist" << std::endl;
         exit(-1);
     }
-    ListGraph G;
+    Graph G;
     unsigned int num_nodes = get_nodes(argv[2]);
     if(num_nodes == -1){
         std::cout <<" not supported file " << argv[2] << std::endl;

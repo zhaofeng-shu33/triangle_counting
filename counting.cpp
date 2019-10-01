@@ -2,26 +2,26 @@
 #if VERBOSE
 #include <iostream>
 #endif        
-int triangle_count_given_edge(const ListGraph& G, const ListGraph::Edge& e, const ArcLookUp<ListGraph>& look_up){
-    ListGraph::Node u = G.u(e);
-    ListGraph::Node v = G.v(e);
+int triangle_count_given_edge(const Graph& G, const Graph::Edge& e, const ArcLookUp<Graph>& look_up){
+    Graph::Node u = G.u(e);
+    Graph::Node v = G.v(e);
     int t_count = 0;
     
-    for(ListGraph::IncEdgeIt e1(G, u); e1 != INVALID; ++e1){
-        ListGraph::Node u_target = G.v(e1);
-        ListGraph::Arc a = look_up(u_target, v);
+    for(Graph::IncEdgeIt e1(G, u); e1 != INVALID; ++e1){
+        Graph::Node u_target = G.v(e1);
+        Graph::Arc a = look_up(u_target, v);
         t_count += (a != INVALID);
     }
     return t_count;
 }
 
-unsigned long triangle_count(const ListGraph& G){
-    ArcLookUp<ListGraph> look_up(G);
+unsigned long triangle_count(const Graph& G){
+    ArcLookUp<Graph> look_up(G);
     unsigned long triangle_sum = 0;
 #if VERBOSE
     int iteration_cnt = 0;
 #endif        
-    for(ListGraph::EdgeIt e(G); e != INVALID; ++e){
+    for(Graph::EdgeIt e(G); e != INVALID; ++e){
         triangle_sum += triangle_count_given_edge(G, e, look_up);
 #if VERBOSE
     if(iteration_cnt % 500000 == 1)

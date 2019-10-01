@@ -3,10 +3,10 @@
 #include "test_tools.h"
 #include "io.h"
 void test_alg(){
-    ListGraph G;
-    ListGraph::Node n1 = G.addNode();
-    ListGraph::Node n2 = G.addNode();
-    ListGraph::Node n3 = G.addNode();
+    Graph G;
+    Graph::Node n1 = G.addNode();
+    Graph::Node n2 = G.addNode();
+    Graph::Node n3 = G.addNode();
     G.addEdge(n1, n2);
     G.addEdge(n2, n3);
     G.addEdge(n1, n3);
@@ -14,7 +14,7 @@ void test_alg(){
     check(tc == 1, "");
 }
 void test_io(){
-    ListGraph G;
+    Graph G;
     construct_graph_from_bin(G, "test_io.bin", 3);
     check(countEdges(G) == 3, "test_io fails");
     try{
