@@ -91,7 +91,7 @@ int collect_degree_info(const Graph& G, std::vector<int>& degree_list, int node_
         else if(degree_list[v] > max_degree)
             max_degree = degree_list[v];
     }
-    return max_degree / 2;
+    return max_degree;
 }
 
 
