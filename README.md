@@ -8,6 +8,8 @@
 | soc-LiveJournal1.bin  | 4,847,571  | 68,993,773  | 127,525,239     |
 | s24.kron.edgelist.bin | 16,777,216 | 268,435,456 |                 |
 
+LiveJournal dataset is accessible from [stanford](https://snap.stanford.edu/data/soc-LiveJournal1.html), the record has self looped edges and each edge occurs twice in the form (u, v) and (v, u).
+
 The label of the node starts from 0 to |V| - 1.
 
 程序运行方式
@@ -35,3 +37,4 @@ Use package manager to install `liblemon` and then use CMake to build the projec
 
 ## Our method
 Internally, we use directed graph data structure to save space. The arc direction is from i to j if i < j and (i, j) belongs to the edge set.
+For the input bin data, if source node id is no smaller than the target node id, we just ignore this record when processing the data.
