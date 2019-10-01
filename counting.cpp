@@ -11,10 +11,10 @@ int triangle_count_given_edge(const Graph& G, const Graph::Edge& e, const ArcLoo
     Graph::Node v = G.v(e);
     int t_count = 0;
     
-    for(Graph::IncEdgeIt e1(G, u); e1 != INVALID; ++e1){
-        Graph::Node u_target = G.v(e1);
-        Graph::Arc a = look_up(u_target, v);
-        t_count += (a != INVALID);
+    for(Graph::OutArcIt a(G, u); a != INVALID; ++a){        
+        Graph::Node u_target = G.target(a);
+        Graph::Arc a2 = look_up(u_target, v);
+        t_count += (a2 != INVALID);
     }
     return t_count;
 }

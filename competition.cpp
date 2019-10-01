@@ -34,7 +34,7 @@ int main(int argc, char** argv){
     construct_graph_from_bin(G, argv[2], num_nodes);
     unsigned long tc = 0;
     const char* method_hint = std::getenv("METHOD");
-    if(strcmp(method_hint, "node_first") == 0){
+    if(method_hint != NULL && strcmp(method_hint, "node_first") == 0){
 #if VERBOSE
         std::cout << "using node_first method" << std::endl;
 #endif        
