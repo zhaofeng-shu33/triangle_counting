@@ -33,7 +33,7 @@ unsigned long triangle_count(const Graph& G, int total_edge){
     ArcLookUp<Graph> look_up(G);
     unsigned long triangle_sum = 0;
 #if VERBOSE
-    int iteration_cnt = 0;
+    unsigned long iteration_cnt = 0;
     int report_unit = total_edge / 100 + 1;
 #endif
 #if TIMECOUNTING
@@ -79,7 +79,11 @@ int triangle_count_given_node(const Graph& G, const Graph::Node& n, const ArcLoo
         Graph::Node i_node = G.nodeFromId(extra_node_list[i]);
         for(int j = i+1; j < allowed_node_num; j++){
             Graph::Node j_node = G.nodeFromId(extra_node_list[j]);
-            Graph::Arc a = look_up(i_node, j_node);
+            Graph::Arc a;
+            if(extra_node_list[i] < extra_node_list[j])
+                a = look_up(i_node, j_node);
+            else
+                a = look_up(j_node, i_node);
             t_count += (a != INVALID);
         }
     }

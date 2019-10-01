@@ -36,6 +36,7 @@ TEST(counting, collect_degree_info){
     int max_degree = collect_degree_info(G, degree_list, 3);
     EXPECT_EQ(max_degree, 2);
     EXPECT_EQ(degree_list.size(), 3);
+    EXPECT_EQ(degree_list[1], 2);
 }
 
 TEST(counting, alg_node_first){

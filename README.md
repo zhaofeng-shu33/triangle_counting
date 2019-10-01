@@ -30,4 +30,4 @@ Use package manager to install `liblemon` and then use CMake to build the projec
 
 | dataset | method                     | times(s) |
 |---------|----------------------------|----------|
-| journal | single threaded smartgraph | 6396.72  |
+| journal | single threaded smartgraph | 2088     |
