@@ -55,17 +55,19 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
             if(arc_exist)
                 continue;
             arc_exist = true;
-            arcs.push_back(std::make_pair(u_id -1 , v_id - 1));
         }
         else if(u_id > v_id){
             bool& arc_exist = arc_exist_map[std::make_pair(v_id, u_id)];
             if(arc_exist)
                 continue;
             arc_exist = true;            
-            arcs.push_back(std::make_pair(v_id - 1 , u_id - 1));
         }
     }
     fin.close();
+    arcs.reserve(arc_exist_map.size());
+    for(std::map<std::pair<int,int>, bool>::iterator it = arc_exist_map.begin(); it != arc_exist_map.end(); ++it){
+        arcs.push_back(it->first);
+    }
     G.build(node_size, arcs.begin(), arcs.end());
 #if VERBOSE
     std::cout << "Graph construction finished" << std::endl;
