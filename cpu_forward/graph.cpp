@@ -24,8 +24,18 @@ Edges ReadEdgesFromFile(const char* filename) {
   Edges edges;
   int m = count_edges(filename);
   ifstream in(filename, ios::binary);
-  edges.resize(m);
-  in.read((char*)edges.data(), 2 * m * sizeof(int));
+    char u_array[4], v_array[4];
+    unsigned int *u, *v;
+    for(int i = 0; i < m; i++){
+        in.read(u_array, 4);
+        in.read(v_array, 4);
+        u = (unsigned int*)u_array;
+        v = (unsigned int*)v_array;
+        if(*u >= *v)
+            continue;
+        edges.push_back(std::make_pair(*u, *v));
+    }
+
   return edges;
 }
 

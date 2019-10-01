@@ -5,7 +5,7 @@
 
 | dataset               | |V|        | |E|         | |T|             |
 |-----------------------|------------|-------------|-----------------|
-| soc-LiveJournal1.bin  | 4,847,571  | 68,993,773  | 645,730,392     |
+| soc-LiveJournal1.bin  | 4,847,571  | 68,993,773  | 127,525,239     |
 | s24.kron.edgelist.bin | 16,777,216 | 268,435,456 |                 |
 
 The label of the node starts from 0 to |V| - 1.
@@ -32,3 +32,6 @@ Use package manager to install `liblemon` and then use CMake to build the projec
 |---------|-----------------------------|----------|
 | journal | single threaded node_first  | 2088     |
 | journal | single threaded edge_first  | 108      |
+
+## Our method
+Internally, we use directed graph data structure to save space. The arc direction is from i to j if i < j and (i, j) belongs to the edge set.

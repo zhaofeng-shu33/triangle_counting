@@ -24,16 +24,22 @@ unsigned int count_edges(const char* file_name){
 void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
-    int edge_size = get_edge(fin);
+    int file_size = get_edge(fin);
     std::vector<std::pair<int,int> > arcs;
-    arcs.resize(edge_size);
 #if VERBOSE
     std::cout << "Number of Nodes: " << node_size << std::endl;
-    std::cout << "Number of Edges: " << edge_size << std::endl;
 #endif
     char u_array[4], v_array[4];
     unsigned int *u, *v;
-    fin.read((char*)arcs.data(), 2 * edge_size * sizeof(int));
+    for(int i = 0; i < file_size; i++){
+        fin.read(u_array, 4);
+        fin.read(v_array, 4);
+        u = (unsigned int*)u_array;
+        v = (unsigned int*)v_array;
+        if(*u >= *v)
+            continue;
+        arcs.push_back(std::make_pair(*u, *v));
+    }
     fin.close();
     G.build(node_size, arcs.begin(), arcs.end());
 #if VERBOSE
