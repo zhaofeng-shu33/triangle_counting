@@ -50,8 +50,8 @@ int triangle_count_given_node(const Graph& G, const Graph::Node& n, const ArcLoo
     int allowed_node_num = 0;
     int n_id = G.id(n);
     int degree_n = degree_list[n_id];
-    for(Graph::IncEdgeIt e(G, n); e != INVALID; ++e){
-        int v_id = G.id(G.v(e));
+    for(Graph::OutArcIt a(G, n); a != INVALID; ++a){
+        int v_id = G.id(G.target(a));
         if(degree_list[v_id] > degree_n || (degree_list[v_id] == degree_n && v_id > n_id)){
             extra_node_list[allowed_node_num] = v_id;
             allowed_node_num ++;
