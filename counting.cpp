@@ -6,13 +6,23 @@
 #include <iostream>
 #include <chrono>
 #endif
-int triangle_count_given_edge(const Graph& G, const Graph::Edge& e, const ArcLookUp<Graph>& look_up){
-    Graph::Node u = G.u(e);
-    Graph::Node v = G.v(e);
+int triangle_count_given_edge(const Graph& G, const Graph::Arc& e, const ArcLookUp<Graph>& look_up){
+    Graph::Node u = G.source(e);
+    Graph::Node v = G.target(e);
     int t_count = 0;
     
     for(Graph::OutArcIt a(G, u); a != INVALID; ++a){        
         Graph::Node u_target = G.target(a);
+        Graph::Arc a2;
+        if(G.id(v) < G.id(u_target))
+            a2 = look_up(v, u_target);
+        else
+            a2 = look_up(u_target, v);
+        
+        t_count += (a2 != INVALID);
+    }
+    for(Graph::InArcIt a(G, u); a != INVALID; ++a){        
+        Graph::Node u_target = G.source(a);
         Graph::Arc a2 = look_up(u_target, v);
         t_count += (a2 != INVALID);
     }
@@ -29,8 +39,8 @@ unsigned long triangle_count(const Graph& G, int total_edge){
 #if TIMECOUNTING
     std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
 #endif    
-    for(Graph::EdgeIt e(G); e != INVALID; ++e){
-        triangle_sum += triangle_count_given_edge(G, e, look_up);
+    for(Graph::ArcIt a(G); a != INVALID; ++a){
+        triangle_sum += triangle_count_given_edge(G, a, look_up);
 #if VERBOSE
     if(iteration_cnt % report_unit == 1)
         std::cout << iteration_cnt * 100 / total_edge << "% edges processed" << std::endl;
@@ -57,6 +67,13 @@ int triangle_count_given_node(const Graph& G, const Graph::Node& n, const ArcLoo
             allowed_node_num ++;
         }
     }
+    for(Graph::InArcIt a(G, n); a != INVALID; ++a){
+        int v_id = G.id(G.source(a));
+        if(degree_list[v_id] > degree_n || (degree_list[v_id] == degree_n && v_id > n_id)){
+            extra_node_list[allowed_node_num] = v_id;
+            allowed_node_num ++;
+        }
+    }    
     int t_count = 0;
     for(int i = 0; i < allowed_node_num; i++){
         Graph::Node i_node = G.nodeFromId(extra_node_list[i]);
@@ -103,9 +120,9 @@ unsigned long triangle_count_vertex_iteration(const Graph& G, const std::vector<
 int collect_degree_info(const Graph& G, std::vector<int>& degree_list, int node_size){
     degree_list.resize(node_size, 0);
     int max_degree = 0;
-    for(Graph::EdgeIt e(G); e!= INVALID; ++e){
-        int u = G.id(G.u(e));
-        int v = G.id(G.v(e));
+    for(Graph::ArcIt a(G); a!= INVALID; ++a){
+        int u = G.id(G.source(a));
+        int v = G.id(G.target(a));
         degree_list[u] ++;
         degree_list[v] ++;
         if(degree_list[u] > max_degree)

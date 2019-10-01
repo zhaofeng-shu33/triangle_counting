@@ -24,15 +24,12 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
     int edge_size = get_edge(fin);
-    G.reserveNode(node_size);
-    G.reserveEdge(edge_size);
+    std::vector<std::pair<int,int> > arcs;
+    arcs.resize(edge_size);
 #if VERBOSE
     std::cout << "Number of Nodes: " << node_size << std::endl;
     std::cout << "Number of Edges: " << edge_size << std::endl;
 #endif
-    for(int i = 0; i < node_size; i++){
-        G.addNode();
-    }
     char u_array[4], v_array[4];
     unsigned int *u, *v;
     for(int i = 0; i < edge_size; i++){
@@ -40,13 +37,14 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
         fin.read(v_array, 4);
         u = (unsigned int*)u_array;
         v = (unsigned int*)v_array;
-        G.addEdge(G.nodeFromId(*u), G.nodeFromId(*v));
+        arcs[i] = std::make_pair(*u, *v);
 #if VERBOSE
     if(i % 1000000 == 1)
         std::cout << i << " edges added" << std::endl;
 #endif        
     }
     fin.close();
+    G.build(node_size, arcs.begin(), arcs.end());
 #if VERBOSE
     std::cout << "Graph construction finished" << std::endl;
 #endif
