@@ -29,6 +29,7 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
     std::vector<std::pair<int,int> > arcs;
 #if VERBOSE
     std::cout << "Number of Nodes: " << node_size << std::endl;
+    int base_counter = file_size / 10;
 #endif
     char u_array[4], v_array[4];
     unsigned int *u, *v;
@@ -62,6 +63,10 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
                 continue;
             arc_exist = true;            
         }
+#if VERBOSE
+    if(i % base_counter == 1)
+        std::cout << 10 * i / base_counter << "% processed for input file"  << std::endl;    
+#endif        
     }
 #if VERBOSE
     std::cout << "File reading finished" << std::endl;
