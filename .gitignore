@@ -1,5 +1,4 @@
-build_centos
+build*
 c_cpp_properties.json
-build
 explore.py
 launch.json
