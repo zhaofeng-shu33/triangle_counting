@@ -1,5 +1,6 @@
 #include "io.h"
 #include <string>
+#include <map>
 #include <fstream>
 #if VERBOSE
 #include <iostream>
@@ -31,14 +32,26 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
 #endif
     char u_array[4], v_array[4];
     unsigned int *u, *v;
+    std::map<int, int> kv_map; 
+    int node_id = 1;
     for(int i = 0; i < file_size; i++){
         fin.read(u_array, 4);
         fin.read(v_array, 4);
         u = (unsigned int*)u_array;
         v = (unsigned int*)v_array;
-        if(*u >= *v)
+        int& u_id = kv_map[*u];
+        if(u_id == 0){
+            u_id = node_id;
+            node_id ++;
+        }
+        int& v_id = kv_map[*v];
+        if(v_id == 0){
+            v_id = node_id;
+            node_id ++;
+        }
+        if(u_id >= v_id)
             continue;
-        arcs.push_back(std::make_pair(*u, *v));
+        arcs.push_back(std::make_pair(u_id -1 , v_id - 1));
     }
     fin.close();
     G.build(node_size, arcs.begin(), arcs.end());
