@@ -86,8 +86,10 @@ AdjList EdgesToAdjList(const Edges& edges) {
   // Sorting edges with std::sort to optimize memory access pattern when
   // creating graph gives less than 20% speedup.
   AdjList graph(NumVertices(edges));
-  for (const pair<int, int>& edge : edges)
+  for (const pair<int, int>& edge : edges){
     graph[edge.first].push_back(edge.second);
+    graph[edge.second].push_back(edge.first);
+  }
   return graph;
 }
 }
