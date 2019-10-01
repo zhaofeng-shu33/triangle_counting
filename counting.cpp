@@ -85,7 +85,7 @@ unsigned long triangle_count_vertex_iteration(const Graph& G, const std::vector<
         triangle_sum += triangle_count_given_node(G, n, look_up, degree_list, extra_node_list);
 #if VERBOSE
     if(iteration_cnt % 500000 == 1)
-        std::cout << iteration_cnt << " edges processed" << std::endl;
+        std::cout << iteration_cnt << " nodes processed" << std::endl;
     iteration_cnt ++;
 #endif
     }

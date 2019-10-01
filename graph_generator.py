@@ -11,7 +11,7 @@ def networkx_to_bin(G, filename):
     f.close()
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--task', default='test_required', choices=['test_required', 'complete_graph'])
+    parser.add_argument('--task', default='test_required', choices=['test_required', 'complete_graph', 'random_graph'])
     parser.add_argument('--num_nodes', default=4, type=int)
     args = parser.parse_args()
     if args.task == 'test_required':
@@ -24,3 +24,7 @@ if __name__ == '__main__':
     elif args.task == 'complete_graph':
         num_nodes = args.num_nodes
         networkx_to_bin(nx.complete_graph(num_nodes), "complete_%d.bin" % num_nodes)
+    elif args.task == 'random_graph':
+        num_nodes = args.num_nodes
+        networkx_to_bin(nx.binomial_graph(num_nodes, 0.5), "random_%d.bin" % num_nodes)
+

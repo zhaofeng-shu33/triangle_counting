@@ -53,3 +53,16 @@ TEST(counting, alg_node_first){
     int tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
     EXPECT_EQ(tc, 1);
 }
+
+TEST(counting, alg_node_first_zero_triangle){
+    Graph G;
+    Graph::Node n1 = G.addNode();
+    Graph::Node n2 = G.addNode();
+    Graph::Node n3 = G.addNode();
+    G.addEdge(n1, n2);
+    G.addEdge(n2, n3);
+    std::vector<int> degree_list;    
+    int max_degree = collect_degree_info(G, degree_list, 3);
+    int tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
+    EXPECT_EQ(tc, 0);
+}
