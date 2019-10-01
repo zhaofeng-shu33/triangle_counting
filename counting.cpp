@@ -46,22 +46,43 @@ unsigned long triangle_count(const Graph& G, int total_edge){
     return triangle_sum / 3;
 }
 
-int triangle_count_given_node(const Graph& G, const Graph::Node& n, const ArcLookUp<Graph>& look_up){
-    return 0;
+int triangle_count_given_node(const Graph& G, const Graph::Node& n, const ArcLookUp<Graph>& look_up, const std::vector<int>& degree_list, std::vector<int>& extra_node_list){
+    int allowed_node_num = 0;
+    int n_id = G.id(n);
+    int degree_n = degree_list[n_id];
+    for(Graph::IncEdgeIt e(G, n); e != INVALID; ++e){
+        int v_id = G.id(G.v(e));
+        if(degree_list[v_id] > degree_n || (degree_list[v_id] == degree_n && v_id > n_id)){
+            extra_node_list[allowed_node_num] = v_id;
+            allowed_node_num ++;
+        }
+    }
+    int t_count = 0;
+    for(int i = 0; i < allowed_node_num; i++){
+        Graph::Node i_node = G.nodeFromId(extra_node_list[i]);
+        for(int j = i+1; j < allowed_node_num; j++){
+            Graph::Node j_node = G.nodeFromId(extra_node_list[j]);
+            Graph::Arc a = look_up(i_node, j_node);
+            t_count += (a != INVALID);
+        }
+    }
+    return t_count;
 }
 
 //! follow the algorithm in the Stanford lecture notes
-unsigned long triangle_count_vertex_iteration(const Graph& G){
+unsigned long triangle_count_vertex_iteration(const Graph& G, const std::vector<int>& degree_list, int max_degree){
     ArcLookUp<Graph> look_up(G);
     unsigned long triangle_sum = 0;
 #if VERBOSE
     int iteration_cnt = 0;
 #endif
+    std::vector<int> extra_node_list;
+    extra_node_list.resize(max_degree);
 #if TIMECOUNTING
     std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
 #endif    
     for(Graph::NodeIt n(G); n != INVALID; ++n){
-        triangle_sum += triangle_count_given_node(G, n, look_up);
+        triangle_sum += triangle_count_given_node(G, n, look_up, degree_list, extra_node_list);
 #if VERBOSE
     if(iteration_cnt % 500000 == 1)
         std::cout << iteration_cnt << " edges processed" << std::endl;

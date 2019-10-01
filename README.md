@@ -25,3 +25,9 @@ Use package manager to install `liblemon` and then use CMake to build the projec
 ## Reference
 
 1. [Lecture Notes on Triangle Counting Algorithms](https://cs.stanford.edu/~rishig/courses/ref/l1.pdf)
+
+## Baseline
+
+| dataset | method                     | times(s) |
+|---------|----------------------------|----------|
+| journal | single threaded smartgraph | 6396.72  |

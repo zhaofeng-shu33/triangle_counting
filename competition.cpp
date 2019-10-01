@@ -32,7 +32,19 @@ int main(int argc, char** argv){
         exit(-1);
     }
     construct_graph_from_bin(G, argv[2], num_nodes);
-    unsigned long tc = triangle_count(G, num_edges);
+    unsigned long tc = 0;
+    const char* method_hint = std::getenv("METHOD");
+    if(strcmp(method_hint, "node_first") == 0){
+#if VERBOSE
+        std::cout << "using node_first method" << std::endl;
+#endif        
+        std::vector<int> degree_list;
+        int max_degree = collect_degree_info(G, degree_list, num_nodes);
+        tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
+    }
+    else{
+        tc = triangle_count(G, num_edges);
+    }
     std::cout << "There are " << tc << " triangles in the input graph." << std::endl;
     return 0;
 }
