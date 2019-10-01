@@ -63,6 +63,9 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
             arc_exist = true;            
         }
     }
+#if VERBOSE
+    std::cout << "File reading finished" << std::endl;
+#endif    
     fin.close();
     arcs.reserve(arc_exist_map.size());
     for(std::map<std::pair<int,int>, bool>::iterator it = arc_exist_map.begin(); it != arc_exist_map.end(); ++it){
