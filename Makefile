@@ -1,3 +1,4 @@
+# deprecated
 BUILD_DIR = ./build
 
 .PHONY: all

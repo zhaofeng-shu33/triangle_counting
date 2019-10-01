@@ -21,3 +21,7 @@ The label of the node starts from 0 to |V| - 1.
 We use a naive method to count the triangles in the graph. The basic routine is a single thread counting function.
 
 Use package manager to install `liblemon` and then use CMake to build the project.
+
+## Reference
+
+1. [Lecture Notes on Triangle Counting Algorithms](https://cs.stanford.edu/~rishig/courses/ref/l1.pdf)
