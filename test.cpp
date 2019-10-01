@@ -11,7 +11,7 @@ TEST(counting, alg){
     G.addEdge(n1, n2);
     G.addEdge(n2, n3);
     G.addEdge(n1, n3);
-    int tc = triangle_count(G);
+    int tc = triangle_count(G, 3);
     EXPECT_EQ(tc, 1);
 }
 

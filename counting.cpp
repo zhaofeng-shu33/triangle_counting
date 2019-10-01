@@ -19,11 +19,12 @@ int triangle_count_given_edge(const Graph& G, const Graph::Edge& e, const ArcLoo
     return t_count;
 }
 
-unsigned long triangle_count(const Graph& G){
+unsigned long triangle_count(const Graph& G, int total_edge){
     ArcLookUp<Graph> look_up(G);
     unsigned long triangle_sum = 0;
 #if VERBOSE
     int iteration_cnt = 0;
+    int report_unit = total_edge / 100 + 1;
 #endif
 #if TIMECOUNTING
     std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
@@ -31,8 +32,8 @@ unsigned long triangle_count(const Graph& G){
     for(Graph::EdgeIt e(G); e != INVALID; ++e){
         triangle_sum += triangle_count_given_edge(G, e, look_up);
 #if VERBOSE
-    if(iteration_cnt % 500000 == 1)
-        std::cout << iteration_cnt << " edges processed" << std::endl;
+    if(iteration_cnt % report_unit == 1)
+        std::cout << iteration_cnt * 100 / total_edge << "% edges processed" << std::endl;
     iteration_cnt ++;
 #endif
     }

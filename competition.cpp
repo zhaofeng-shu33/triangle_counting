@@ -26,12 +26,13 @@ int main(int argc, char** argv){
     }
     Graph G;
     unsigned int num_nodes = get_nodes(argv[2]);
+    unsigned int num_edges = count_edges(argv[2]);
     if(num_nodes == -1){
         std::cout <<" not supported file " << argv[2] << std::endl;
         exit(-1);
     }
     construct_graph_from_bin(G, argv[2], num_nodes);
-    unsigned long tc = triangle_count(G);
+    unsigned long tc = triangle_count(G, num_edges);
     std::cout << "There are " << tc << " triangles in the input graph." << std::endl;
     return 0;
 }

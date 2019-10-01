@@ -13,6 +13,13 @@ int get_edge(std::ifstream& fin){
     }
     return edge_size / 8;
 }
+unsigned int count_edges(const char* file_name){
+    std::ifstream fin;
+    fin.open(file_name, std::ifstream::binary | std::ifstream::in);
+    unsigned int num_edges = get_edge(fin);
+    fin.close();
+    return num_edges;
+}
 void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
