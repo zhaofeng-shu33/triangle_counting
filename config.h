@@ -3,9 +3,10 @@
 #else
     #include <lemon/static_graph.h>
 #endif
-using namespace lemon;
+namespace lemon{
 #if SMARTGRAPH
     typedef SmartGraph Graph;
 #else
     typedef StaticDigraph Graph;
 #endif
+}

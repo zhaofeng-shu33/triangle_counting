@@ -28,6 +28,7 @@ Use package manager to install `liblemon` and then use CMake to build the projec
 
 ## Baseline
 
-| dataset | method                     | times(s) |
-|---------|----------------------------|----------|
-| journal | single threaded smartgraph | 2088     |
+| dataset | method                      | times(s) |
+|---------|-----------------------------|----------|
+| journal | single threaded node_first  | 2088     |
+| journal | single threaded edge_first  | 108      |

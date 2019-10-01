@@ -6,6 +6,7 @@
 #include <iostream>
 #include <chrono>
 #endif
+namespace lemon{
 int triangle_count_given_edge(const Graph& G, const Graph::Arc& e, const ArcLookUp<Graph>& look_up){
     Graph::Node u = G.source(e);
     Graph::Node v = G.target(e);
@@ -136,5 +137,5 @@ int collect_degree_info(const Graph& G, std::vector<int>& degree_list, int node_
     }
     return max_degree;
 }
-
+}
 

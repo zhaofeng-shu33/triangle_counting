@@ -3,6 +3,7 @@
 #include "counting.h"
 #include "test_tools.h"
 #include "io.h"
+using namespace lemon;
 TEST(counting, alg){
     Graph G;
     std::vector<std::pair<int,int> > arcs;

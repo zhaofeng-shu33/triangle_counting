@@ -4,6 +4,7 @@
 #if VERBOSE
 #include <iostream>
 #endif  
+namespace lemon{
 int get_edge(std::ifstream& fin){
     fin.seekg(0, fin.end);
     int edge_size = fin.tellg();
@@ -32,17 +33,7 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
 #endif
     char u_array[4], v_array[4];
     unsigned int *u, *v;
-    for(int i = 0; i < edge_size; i++){
-        fin.read(u_array, 4);
-        fin.read(v_array, 4);
-        u = (unsigned int*)u_array;
-        v = (unsigned int*)v_array;
-        arcs[i] = std::make_pair(*u, *v);
-#if VERBOSE
-    if(i % 1000000 == 1)
-        std::cout << i << " edges added" << std::endl;
-#endif        
-    }
+    fin.read((char*)arcs.data(), 2 * edge_size * sizeof(int));
     fin.close();
     G.build(node_size, arcs.begin(), arcs.end());
 #if VERBOSE
@@ -65,4 +56,5 @@ unsigned int count_nodes(const char* file_name){
     }
     fin.close();
     return max_id + 1;
+}
 }
