@@ -43,7 +43,8 @@ unsigned long triangle_count(const Graph& G, int total_edge){
 #if TIMECOUNTING
     std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
 #endif    
-    #pragma omp parallel for reduction(+:triangle_sum)
+
+#pragma omp parallel for reduction(+:triangle_sum)
     for(int a = 0; a < total_edge; ++a){
         triangle_sum += triangle_count_given_edge(G, G.arcFromId(a), look_up);
 #if VERBOSE && !defined OPENMP
@@ -52,6 +53,7 @@ unsigned long triangle_count(const Graph& G, int total_edge){
     iteration_cnt ++;
 #endif
     }
+
 #if TIMECOUNTING
     std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
     std::chrono::system_clock::duration dtn = end_time - start_time;
