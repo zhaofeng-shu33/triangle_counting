@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.com/zhaofeng-shu33/triangle_counting.svg?branch=master)](https://travis-ci.com/zhaofeng-shu33/triangle_counting/)
+
 # format of bin data file
 
 为二进制文件，为顺序存放的边表。每条边包含两个顶点（源顶点和目的顶点，各占4个字节），边的存储长度为8个字节，文件的存储格式为：
@@ -6,7 +8,7 @@
 | dataset               | |V|        | |E|         | |T|             |
 |-----------------------|------------|-------------|-----------------|
 | soc-LiveJournal1.bin  | 4,847,571  | 68,993,773  | 285,730,264     |
-| s24.kron.edgelist.bin | 16,777,216 | 268,435,456 |                 |
+| s24.kron.edgelist.bin | 16,777,216 | 268,435,456 | 10,286,638,314  |
 
 LiveJournal dataset is accessible from [stanford](https://snap.stanford.edu/data/soc-LiveJournal1.html), the record has self looped edges and many edge occurs twice in the form (u, v) and (v, u) but some occurs only once. These details need some preprocessing task.
 
