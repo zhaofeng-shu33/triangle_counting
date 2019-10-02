@@ -17,9 +17,9 @@ TEST(counting, alg){
 
 TEST(io, io_bin){
     Graph G;
-    construct_graph_from_bin(G, "test_io.bin", 3);
+    construct_graph_from_bin(G, "test_io.bin");
     EXPECT_EQ(countArcs(G), 3);
-    EXPECT_THROW(construct_graph_from_bin(G, "test_io_false.bin", 3), std::logic_error);
+    EXPECT_THROW(construct_graph_from_bin(G, "test_io_false.bin"), std::logic_error);
 }
 
 TEST(io, get_node_num){

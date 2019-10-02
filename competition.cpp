@@ -28,15 +28,10 @@ int main(int argc, char** argv){
         exit(-1);
     }
     Graph G;
-    unsigned int num_nodes = get_nodes(argv[2]);
-    unsigned int num_edges = count_edges(argv[2]);
-    if(num_nodes == -1){
-        std::cout <<" not supported file " << argv[2] << std::endl;
-        exit(-1);
-    }
+    int num_nodes, num_edges;
     const char* method_hint = std::getenv("METHOD");
     if(method_hint == NULL || strcmp(method_hint, "cpu_forward") != 0){
-        construct_graph_from_bin(G, argv[2], num_nodes);
+        std::tie(num_nodes, num_edges) = construct_graph_from_bin(G, argv[2]);
     }
     unsigned long tc = 0;
     if(method_hint == NULL){

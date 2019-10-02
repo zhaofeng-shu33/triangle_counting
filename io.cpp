@@ -22,13 +22,13 @@ unsigned int count_edges(const char* file_name){
     fin.close();
     return num_edges;
 }
-void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
+std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
     int file_size = get_edge(fin);
     std::vector<std::pair<int,int> > arcs;
 #if VERBOSE
-    std::cout << "Number of Nodes: " << node_size << std::endl;
+    std::cout << "Start file reading..." << std::endl;
     int base_counter = file_size / 10;
 #endif
     char u_array[4], v_array[4];
@@ -68,11 +68,14 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
         std::cout << 10 * i / base_counter << "% processed for input file"  << std::endl;    
 #endif        
     }
+    int actual_edge_num = arc_exist_map.size();
 #if VERBOSE
     std::cout << "File reading finished" << std::endl;
+    std::cout << "Actual node size " << node_id - 1<< std::endl;
+    std::cout << "Actual edges " << actual_edge_num << std::endl;
 #endif    
     fin.close();
-    arcs.reserve(arc_exist_map.size());
+    arcs.reserve(actual_edge_num);
     for(std::map<std::pair<int,int>, bool>::iterator it = arc_exist_map.begin(); it != arc_exist_map.end(); ++it){
         arcs.push_back(it->first);
     }
@@ -80,6 +83,7 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
 #if VERBOSE
     std::cout << "Graph construction finished" << std::endl;
 #endif
+    return std::make_pair(node_id - 1, actual_edge_num);
 }
 
 unsigned int count_nodes(const char* file_name){
