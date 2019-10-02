@@ -10,8 +10,11 @@ addons:
       - liblemon-dev
       - liblemon1.3.1
       - libgtest-dev
+install:
+  - pip install networkx
 script:
   - mkdir build
+  - python graph_generator.py
   - cd build
   - cmake -DENABLE_TESTING=ON ../
   - make
