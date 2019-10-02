@@ -6,26 +6,26 @@
 #include <iostream>
 #endif  
 namespace lemon{
-int get_edge(std::ifstream& fin){
+unsigned long get_edge(std::ifstream& fin){
     fin.seekg(0, fin.end);
-    int edge_size = fin.tellg();
+    unsigned long edge_size = fin.tellg();
     fin.seekg(0, fin.beg);    
     if (edge_size % 8 != 0){
         throw std::logic_error( std::string{} + "not multiply of 8 at " +  __FILE__ +  ":" + std::to_string(__LINE__));
     }
     return edge_size / 8;
 }
-unsigned int count_edges(const char* file_name){
+unsigned long count_edges(const char* file_name){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
-    unsigned int num_edges = get_edge(fin);
+    unsigned long num_edges = get_edge(fin);
     fin.close();
     return num_edges;
 }
 std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
-    int file_size = get_edge(fin);
+    unsigned long file_size = get_edge(fin);
     std::vector<std::pair<int,int> > arcs;
 #if VERBOSE
     std::cout << "Start file reading..." << std::endl;
@@ -36,7 +36,7 @@ std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
     std::map<int, int> kv_map; 
     std::map<std::pair<int,int>, bool> arc_exist_map;
     int node_id = 1;
-    for(int i = 0; i < file_size; i++){
+    for(unsigned long i = 0; i < file_size; i++){
 #if VERBOSE
     if(i % base_counter == 1)
         std::cout << 10 * i / base_counter << "% processed for input file"  << std::endl;    
