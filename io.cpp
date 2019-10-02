@@ -76,7 +76,7 @@ void construct_graph_from_bin(Graph& G, const char* file_name, int node_size){
     for(std::map<std::pair<int,int>, bool>::iterator it = arc_exist_map.begin(); it != arc_exist_map.end(); ++it){
         arcs.push_back(it->first);
     }
-    G.build(node_size, arcs.begin(), arcs.end());
+    G.build(node_id - 1, arcs.begin(), arcs.end());
 #if VERBOSE
     std::cout << "Graph construction finished" << std::endl;
 #endif

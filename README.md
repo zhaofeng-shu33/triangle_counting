@@ -5,10 +5,10 @@
 
 | dataset               | |V|        | |E|         | |T|             |
 |-----------------------|------------|-------------|-----------------|
-| soc-LiveJournal1.bin  | 4,847,571  | 68,993,773  | 127,525,239     |
+| soc-LiveJournal1.bin  | 4,847,571  | 68,993,773  | 285,730,264     |
 | s24.kron.edgelist.bin | 16,777,216 | 268,435,456 |                 |
 
-LiveJournal dataset is accessible from [stanford](https://snap.stanford.edu/data/soc-LiveJournal1.html), the record has self looped edges and each edge occurs twice in the form (u, v) and (v, u).
+LiveJournal dataset is accessible from [stanford](https://snap.stanford.edu/data/soc-LiveJournal1.html), the record has self looped edges and many edge occurs twice in the form (u, v) and (v, u) but some occurs only once. These details need some preprocessing task.
 
 The label of the node starts from 0 to |V| - 1.
 
@@ -33,7 +33,7 @@ Use package manager to install `liblemon` and then use CMake to build the projec
 | dataset | method                      | times(s) |
 |---------|-----------------------------|----------|
 | journal | single threaded node_first  | 2088     |
-| journal | single threaded edge_first  | 108      |
+| journal | single threaded edge_first  | 600      |
 
 ## Our method
 Internally, we use directed graph data structure to save space. The arc direction is from i to j if i < j and (i, j) belongs to the edge set.
