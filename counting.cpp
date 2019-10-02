@@ -6,6 +6,9 @@
 #include <iostream>
 #include <chrono>
 #endif
+#if OPENMP
+#include <omp.h>
+#endif
 namespace lemon{
 int triangle_count_given_edge(const Graph& G, const Graph::Arc& e, const ArcLookUp<Graph>& look_up){
     Graph::Node u = G.source(e);
@@ -40,9 +43,10 @@ unsigned long triangle_count(const Graph& G, int total_edge){
 #if TIMECOUNTING
     std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
 #endif    
-    for(Graph::ArcIt a(G); a != INVALID; ++a){
-        triangle_sum += triangle_count_given_edge(G, a, look_up);
-#if VERBOSE
+    #pragma omp parallel for reduction(+:triangle_sum)
+    for(int a = 0; a < total_edge; ++a){
+        triangle_sum += triangle_count_given_edge(G, G.arcFromId(a), look_up);
+#if VERBOSE && !defined OPENMP
     if(iteration_cnt % report_unit == 1)
         std::cout << iteration_cnt * 100 / total_edge << "% edges processed" << std::endl;
     iteration_cnt ++;
