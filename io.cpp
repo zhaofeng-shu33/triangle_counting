@@ -37,6 +37,10 @@ std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
     std::map<std::pair<int,int>, bool> arc_exist_map;
     int node_id = 1;
     for(int i = 0; i < file_size; i++){
+#if VERBOSE
+    if(i % base_counter == 1)
+        std::cout << 10 * i / base_counter << "% processed for input file"  << std::endl;    
+#endif        
         fin.read(u_array, 4);
         fin.read(v_array, 4);
         u = (unsigned int*)u_array;
@@ -62,11 +66,7 @@ std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
             if(arc_exist)
                 continue;
             arc_exist = true;            
-        }
-#if VERBOSE
-    if(i % base_counter == 1)
-        std::cout << 10 * i / base_counter << "% processed for input file"  << std::endl;    
-#endif        
+        }       
     }
     int actual_edge_num = arc_exist_map.size();
 #if VERBOSE
