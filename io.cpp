@@ -29,7 +29,7 @@ std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
     std::vector<std::pair<int,int> > arcs;
 #if VERBOSE
     std::cout << "Start file reading..." << std::endl;
-    int base_counter = file_size / 10;
+    int base_counter = file_size / 10 + 1;
 #endif
     char u_array[4], v_array[4];
     unsigned int *u, *v;
@@ -77,7 +77,7 @@ std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
     fin.close();
     arcs.reserve(actual_edge_num);
     for(std::map<std::pair<int,int>, bool>::iterator it = arc_exist_map.begin(); it != arc_exist_map.end(); ++it){
-        arcs.push_back(it->first);
+        arcs.push_back(std::make_pair(it->first.first -1, it->first.second - 1));
     }
     G.build(node_id - 1, arcs.begin(), arcs.end());
 #if VERBOSE
