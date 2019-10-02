@@ -1,6 +1,7 @@
 #include "config.h"
 namespace lemon{
-    std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name);
+    void construct_graph_from_arclist(Graph& G, const std::vector<std::pair<int,int> >& arcs, int node_size);
+    std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<std::pair<int, int>>& arcs);    
     unsigned int count_nodes(const char* file_name);
     unsigned long count_edges(const char* file_name);
 }

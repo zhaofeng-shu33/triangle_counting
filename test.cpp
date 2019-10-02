@@ -17,9 +17,12 @@ TEST(counting, alg){
 
 TEST(io, io_bin){
     Graph G;
-    construct_graph_from_bin(G, "test_io.bin");
+    std::vector<std::pair<int, int>> arcs;
+    std::pair<int,int> result = read_binfile_to_arclist("test_io.bin", arcs);
+    construct_graph_from_arclist(G, arcs, result.first);
     EXPECT_EQ(countArcs(G), 3);
-    EXPECT_THROW(construct_graph_from_bin(G, "test_io_false.bin"), std::logic_error);
+    arcs.clear();
+    EXPECT_THROW(read_binfile_to_arclist("test_io_false.bin", arcs), std::logic_error);
 }
 
 TEST(io, get_node_num){

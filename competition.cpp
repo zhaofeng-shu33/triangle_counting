@@ -30,8 +30,10 @@ int main(int argc, char** argv){
     Graph G;
     int num_nodes, num_edges;
     const char* method_hint = std::getenv("METHOD");
+    std::vector<std::pair<int, int>> arcs;
+    std::tie(num_nodes, num_edges) = read_binfile_to_arclist(argv[2], arcs);
     if(method_hint == NULL || strcmp(method_hint, "cpu_forward") != 0){
-        std::tie(num_nodes, num_edges) = construct_graph_from_bin(G, argv[2]);
+       construct_graph_from_arclist(G, arcs, num_nodes);
     }
     unsigned long tc = 0;
     if(method_hint == NULL){
@@ -49,7 +51,7 @@ int main(int argc, char** argv){
 #if VERBOSE
         std::cout << "using cpu_forward method" << std::endl;
 #endif           
-        cpu_forward::Edges edges = cpu_forward::ReadEdgesFromFile(argv[2]);
+        cpu_forward::Edges& edges = arcs;
         cpu_forward::AdjList adjlist = cpu_forward::EdgesToAdjList(edges);
         tc = cpu_forward::CpuForward(adjlist);
     }

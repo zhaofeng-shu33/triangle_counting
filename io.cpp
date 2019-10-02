@@ -22,11 +22,10 @@ unsigned long count_edges(const char* file_name){
     fin.close();
     return num_edges;
 }
-std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
+std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<std::pair<int, int>>& arcs){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
     unsigned long file_size = get_edge(fin);
-    std::vector<std::pair<int,int> > arcs;
 #if VERBOSE
     std::cout << "Start file reading..." << std::endl;
     int base_counter = file_size / 10 + 1;
@@ -79,11 +78,14 @@ std::pair<int, int> construct_graph_from_bin(Graph& G, const char* file_name){
     for(std::map<std::pair<int,int>, bool>::iterator it = arc_exist_map.begin(); it != arc_exist_map.end(); ++it){
         arcs.push_back(std::make_pair(it->first.first -1, it->first.second - 1));
     }
-    G.build(node_id - 1, arcs.begin(), arcs.end());
+    return std::make_pair(node_id - 1, actual_edge_num);
+}
+
+void construct_graph_from_arclist(Graph& G, const std::vector<std::pair<int,int> >& arcs, int node_size){
+    G.build(node_size, arcs.begin(), arcs.end());
 #if VERBOSE
     std::cout << "Graph construction finished" << std::endl;
 #endif
-    return std::make_pair(node_id - 1, actual_edge_num);
 }
 
 unsigned int count_nodes(const char* file_name){
