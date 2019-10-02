@@ -104,20 +104,24 @@ unsigned long triangle_count_vertex_iteration(const Graph& G, const std::vector<
 #if VERBOSE
     int iteration_cnt = 0;
 #endif
-    std::vector<int> extra_node_list;
-    extra_node_list.resize(max_degree);
     int num_nodes = degree_list.size();
 #if TIMECOUNTING
     std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
-#endif    
+#endif
+#pragma omp parallel
+{    
+    std::vector<int> extra_node_list;
+    extra_node_list.resize(max_degree);
+    #pragma omp for reduction(+:triangle_sum)
     for(int n = 0; n < num_nodes; n++){
         triangle_sum += triangle_count_given_node(G, G.nodeFromId(n), look_up, degree_list, extra_node_list);
-#if VERBOSE
+#if VERBOSE && !defined OPENMP
     if(iteration_cnt % 500000 == 1)
         std::cout << iteration_cnt << " nodes processed" << std::endl;
     iteration_cnt ++;
 #endif
     }
+}
 #if TIMECOUNTING
     std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
     std::chrono::system_clock::duration dtn = end_time - start_time;
