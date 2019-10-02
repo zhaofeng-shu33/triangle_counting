@@ -100,11 +100,12 @@ unsigned long triangle_count_vertex_iteration(const Graph& G, const std::vector<
 #endif
     std::vector<int> extra_node_list;
     extra_node_list.resize(max_degree);
+    int num_nodes = degree_list.size();
 #if TIMECOUNTING
     std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
 #endif    
-    for(Graph::NodeIt n(G); n != INVALID; ++n){
-        triangle_sum += triangle_count_given_node(G, n, look_up, degree_list, extra_node_list);
+    for(int n = 0; n < num_nodes; n++){
+        triangle_sum += triangle_count_given_node(G, G.nodeFromId(n), look_up, degree_list, extra_node_list);
 #if VERBOSE
     if(iteration_cnt % 500000 == 1)
         std::cout << iteration_cnt << " nodes processed" << std::endl;
