@@ -102,9 +102,10 @@ unsigned long triangle_count_vertex_iteration(const Graph& G, const std::vector<
     ArcLookUp<Graph> look_up(G);
     unsigned long triangle_sum = 0;
 #if VERBOSE
-    int iteration_cnt = 0;
+    unsigned long iteration_cnt = 0;
 #endif
     int num_nodes = degree_list.size();
+    int num_nodes_one_percent = num_nodes / 100 + 1;
 #if TIMECOUNTING
     std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
 #endif
@@ -116,8 +117,8 @@ unsigned long triangle_count_vertex_iteration(const Graph& G, const std::vector<
     for(int n = 0; n < num_nodes; n++){
         triangle_sum += triangle_count_given_node(G, G.nodeFromId(n), look_up, degree_list, extra_node_list);
 #if VERBOSE && !defined OPENMP
-    if(iteration_cnt % 500000 == 1)
-        std::cout << iteration_cnt << " nodes processed" << std::endl;
+    if(iteration_cnt % num_nodes_one_percent == 1)
+        std::cout << iteration_cnt * 100 / num_nodes << "% nodes processed" << std::endl;
     iteration_cnt ++;
 #endif
     }

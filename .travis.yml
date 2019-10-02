@@ -1,0 +1,18 @@
+os: linux
+dist: xenial
+language: cpp
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:zhaofeng-shu33/liblemon'
+      - sourceline: 'ppa:zhaofeng-shu33/gtest'    
+    packages:
+      - liblemon-dev
+      - liblemon1.3.1
+      - libgtest-dev
+script:
+  - mkdir build
+  - cd build
+  - cmake -DENABLE_TESTING=ON ../
+  - make
+  - ./test_alg

@@ -39,6 +39,7 @@ uint64_t CpuForward(const AdjList& graph) {
   for (int i = 0; i < n; ++i)
     deg[i] = std::make_pair(graph[i].size(), i);
   std::sort(deg.begin(), deg.end(), std::greater<std::pair<int, int>>());
+  // perm maps the graph node id to its position iwhtin the deg list
   std::vector<int> perm(n);
   for (int i = 0; i < n; ++i)
     perm[deg[i].second] = i;
@@ -47,6 +48,7 @@ uint64_t CpuForward(const AdjList& graph) {
   for (int i = 0; i < n; ++i) {
     const int s = deg[i].second;
     for (const int t : graph[s]) {
+      // node t has less degree than node s
       if (perm[t] <= i) continue;
       c += IntersectionSize(A[s].begin(), A[s].end(), A[t].begin(), A[t].end());
       A[t].push_back(i);
