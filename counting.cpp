@@ -1,17 +1,18 @@
 // Copyright 2019 zhaofeng-shu33
 #include "counting.h"
-#if VERBOSE
+
+#include <vector>
+#if VERBOSE || TIMECOUNTING
 #include <iostream>
 #endif
 #if TIMECOUNTING
-#include <iostream>
-#include <chrono>
+#include <chrono>  // NOLINT(build/c++11)
 #endif
 #if OPENMP
 #include <omp.h>
 #endif
-namespace lemon{
-int triangle_count_given_edge (const Graph& G, 
+namespace lemon {
+int triangle_count_given_edge(const Graph& G,
     const Graph::Arc& e, const ArcLookUp<Graph>& look_up) {
     Graph::Node u = G.source(e);
     Graph::Node v = G.target(e);
@@ -43,53 +44,61 @@ int64_t triangle_count(const Graph& G, int total_edge) {
     int report_unit = total_edge / 100 + 1;
 #endif
 #if TIMECOUNTING
-    std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
+    std::chrono::system_clock::time_point start_time =
+        std::chrono::system_clock::now();
 #endif
 
 #pragma omp parallel for reduction(+:triangle_sum)
     for (int a = 0; a < total_edge; ++a) {
         triangle_sum += triangle_count_given_edge(G, G.arcFromId(a), look_up);
 #if VERBOSE && !defined OPENMP
-    if(iteration_cnt % report_unit == 1)
-        std::cout << iteration_cnt * 100 / total_edge << "% edges processed" << std::endl;
-    iteration_cnt ++;
+    if (iteration_cnt % report_unit == 1)
+        std::cout << iteration_cnt * 100 / total_edge <<
+            "% edges processed" << std::endl;
+    iteration_cnt++;
 #endif
     }
 #if TIMECOUNTING
-    std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
-    std::chrono::system_clock::duration dtn = end_time - start_time;
-    float time_used = std::chrono::duration_cast<std::chrono::milliseconds>(dtn).count()/1000.0;
+    std::chrono::system_clock::time_point end_time =
+        std::chrono::system_clock::now();
+    std::chrono::system_clock::duration dtn =
+        end_time - start_time;
+    typedef std::chrono::duration_cast duration_cast;
+    typedef std::chrono::milliseconds milliseconds;
+    float time_used = duration_cast<milliseconds>(dtn).count()/1000.0;
     std::cout << "Time used: " << time_used << "s" << std::endl;
 #endif
     return triangle_sum / 3;
 }
 
-int triangle_count_given_node(const Graph& G, 
-    const Graph::Node& n, const ArcLookUp<Graph>& look_up, 
-    const std::vector<int>& degree_list, 
-    std::vector<int>& extra_node_list) {
+int triangle_count_given_node(const Graph& G,
+    const Graph::Node& n, const ArcLookUp<Graph>& look_up,
+    const std::vector<int>& degree_list,
+    std::vector<int>* extra_node_list) {
     int allowed_node_num = 0;
     int n_id = G.id(n);
     int degree_n = degree_list[n_id];
     for (Graph::OutArcIt a(G, n); a != INVALID; ++a) {
         int v_id = G.id(G.target(a));
-        if (degree_list[v_id] > degree_n || (degree_list[v_id] == degree_n && v_id > n_id)){
-            extra_node_list[allowed_node_num] = v_id;
-            allowed_node_num ++;
+        if (degree_list[v_id] > degree_n ||
+            (degree_list[v_id] == degree_n && v_id > n_id)) {
+            (*extra_node_list)[allowed_node_num] = v_id;
+            allowed_node_num++;
         }
     }
     for (Graph::InArcIt a(G, n); a != INVALID; ++a) {
         int v_id = G.id(G.source(a));
-        if (degree_list[v_id] > degree_n || (degree_list[v_id] == degree_n && v_id > n_id)){
-            extra_node_list[allowed_node_num] = v_id;
-            allowed_node_num ++;
+        if (degree_list[v_id] > degree_n ||
+            (degree_list[v_id] == degree_n && v_id > n_id)) {
+            (*extra_node_list)[allowed_node_num] = v_id;
+            allowed_node_num++;
         }
     }
     int t_count = 0;
     for (int i = 0; i < allowed_node_num; i++) {
-        Graph::Node i_node = G.nodeFromId(extra_node_list[i]);
+        Graph::Node i_node = G.nodeFromId((*extra_node_list)[i]);
         for (int j = i+1; j < allowed_node_num; j++) {
-            Graph::Node j_node = G.nodeFromId(extra_node_list[j]);
+            Graph::Node j_node = G.nodeFromId((*extra_node_list)[j]);
             Graph::Arc a;
             if (extra_node_list[i] < extra_node_list[j])
                 a = look_up(i_node, j_node);
@@ -103,7 +112,8 @@ int triangle_count_given_node(const Graph& G,
 
 //! follow the algorithm in the Stanford lecture notes
 int64_t triangle_count_vertex_iteration(const Graph& G,
-    const std::vector<int>& degree_list, int max_degree){
+            const std::vector<int>& degree_list,
+            int max_degree) {
     ArcLookUp<Graph> look_up(G);
     int64_t triangle_sum = 0;
 #if VERBOSE
@@ -121,24 +131,28 @@ int64_t triangle_count_vertex_iteration(const Graph& G,
     extra_node_list.resize(max_degree);
     #pragma omp for reduction(+:triangle_sum)
     for (int n = 0; n < num_nodes; n++) {
-        triangle_sum += triangle_count_given_node(G, G.nodeFromId(n), look_up, degree_list, extra_node_list);
+        triangle_sum += triangle_count_given_node(G,
+            G.nodeFromId(n), look_up, degree_list, &extra_node_list);
 #if VERBOSE && !defined OPENMP
     if (iteration_cnt % num_nodes_one_percent == 1)
-        std::cout << iteration_cnt * 100 / num_nodes << "% nodes processed" << std::endl;
+        std::cout << iteration_cnt * 100 / num_nodes <<
+            "% nodes processed" << std::endl;
     iteration_cnt++;
 #endif
     }
 }
 #if TIMECOUNTING
-    std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
-    std::chrono::system_clock::duration dtn = end_time - start_time;
-    float time_used = std::chrono::duration_cast<std::chrono::milliseconds>(dtn).count()/1000.0;
+    std::chrono::system_clock::time_point end_time =
+        std::chrono::system_clock::now();
+    std::chrono::system_clock::duration dtn =
+        end_time - start_time;
+    typedef std::chrono::duration_cast duration_cast;
+    typedef std::chrono::milliseconds milliseconds;
+    float time_used = duration_cast<smilliseconds>(dtn).count()/1000.0;
     std::cout << "Time used: " << time_used << "s" << std::endl;
 #endif
     return triangle_sum;
 }
-
-
 
 int collect_degree_info(const Graph& G, std::vector<int>* degree_list,
                         int node_size) {
@@ -157,5 +171,3 @@ int collect_degree_info(const Graph& G, std::vector<int>* degree_list,
     return max_degree;
 }
 }  // namespace lemon
-
-
