@@ -44,8 +44,8 @@ std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<s
 #endif
         fin.read(u_array, 4);
         fin.read(v_array, 4);
-        u = (int*)u_array;
-        v = (int*)v_array;
+        u = reinterpret_cast<int*>(u_array);
+        v = reinterpret_cast<int*>(v_array);
         int& u_id = kv_map[*u];
         if (u_id == 0) {
             u_id = node_id;
