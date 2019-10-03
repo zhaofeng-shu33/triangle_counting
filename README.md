@@ -10,9 +10,8 @@
 | soc-LiveJournal1.bin  | 4,847,571  | 68,993,773  | 285,730,264     |
 | s24.kron.edgelist.bin | 16,777,216 | 268,435,456 | 10,286,638,314  |
 
-LiveJournal dataset is accessible from [stanford](https://snap.stanford.edu/data/soc-LiveJournal1.html), the record has self looped edges and many edge occurs twice in the form (u, v) and (v, u) but some occurs only once. These details need some preprocessing task.
+The homepage of LiveJournal dataset is hosted at [stanford](https://snap.stanford.edu/data/soc-LiveJournal1.html), both datasets are temporarily accessible at [LiveJournal1](http://datafountain.int-yt.com/BDCI2019/FeiMa/soc-LiveJournal1.bin) and [s24-kron](http://datafountain.int-yt.com/BDCI2019/FeiMa/s24.kron.edgelist.bin). These temporary data download links may be invalid. Notice that the record may have self looped edges and some edge occurs twice in the form (u, v) and (v, u) but some occurs only once. These details need some preprocessing task. Also the label of the node may not be continuous from 0 to |V| -1. Some mapping conversion is necessary.
 
-The label of the node starts from 0 to |V| - 1.
 
 程序运行方式
 每个参赛组提交的程序将会以如下格式的命令运行、进行评测:
