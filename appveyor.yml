@@ -4,7 +4,7 @@ configuration: Release
 platform: x64
 install:
 - cmd: >-        
-    IF NOT EXIST "C:\Tools\vcpkg\installed\x64-windows\include\lemon\config.h" vcpkg install liblemon:x64-windows
+    IF NOT EXIST "C:\Tools\vcpkg\installed\x64-windows\include\lemon\config.h" vcpkg install liblemon:x64-windows gtest:x64-windows
     
 cache: C:\Tools\vcpkg\installed\x64-windows
 build: off
@@ -16,7 +16,7 @@ build_script:
     
     cd build
     
-    cmake -DENABLE_TESTING=ON ..
+    cmake -DCMAKE_TOOLCHAIN_FILE=C:\Tools\vcpkg\scripts\buildsystems\vcpkg.cmake -DENABLE_TESTING=ON ..
     
     cmake --build . --config=Release
     
