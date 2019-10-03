@@ -11,8 +11,6 @@ addons:
       - liblemon1.3.1
       - libgtest-dev
       - lcov
-install:
-  - pip install --user networkx
 script:
   - mkdir build
   - python graph_generator.py
