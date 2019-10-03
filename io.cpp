@@ -18,13 +18,7 @@ unsigned long get_edge(std::ifstream& fin){
     }
     return edge_size / 8;
 }
-unsigned long count_edges(const char* file_name){
-    std::ifstream fin;
-    fin.open(file_name, std::ifstream::binary | std::ifstream::in);
-    unsigned long num_edges = get_edge(fin);
-    fin.close();
-    return num_edges;
-}
+
 std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<std::pair<int, int>>& arcs){
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
