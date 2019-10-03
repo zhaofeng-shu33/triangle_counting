@@ -18,6 +18,6 @@ build_script:
     
     cmake -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE=C:\Tools\vcpkg\scripts\buildsystems\vcpkg.cmake -DENABLE_TESTING=ON ..
     
-    cmake --build . --config=Release
+    cmake --build . --config Release
     
     .\Release\test_alg.exe
