@@ -21,11 +21,11 @@ TEST(counting, alg) {
 TEST(io, io_bin) {
     Graph G;
     std::vector<std::pair<int, int>> arcs;
-    std::pair<int, int> result = read_binfile_to_arclist("test_io.bin", arcs);
-    construct_graph_from_arclist(G, arcs, result.first);
+    std::pair<int, int> result = read_binfile_to_arclist("test_io.bin", &arcs);
+    construct_graph_from_arclist(&G, arcs, result.first);
     EXPECT_EQ(countArcs(G), 3);
     arcs.clear();
-    EXPECT_THROW(read_binfile_to_arclist("test_io_false.bin", arcs),
+    EXPECT_THROW(read_binfile_to_arclist("test_io_false.bin", &arcs),
                  std::logic_error);
 }
 

@@ -37,8 +37,8 @@ int main(int argc, char** argv){
 #endif        
         // data loader block
         std::vector<std::pair<int, int>> arcs;
-        std::tie(num_nodes, num_edges) = read_binfile_to_arclist(argv[2], arcs);
-        construct_graph_from_arclist(G, arcs, num_nodes);
+        std::tie(num_nodes, num_edges) = read_binfile_to_arclist(argv[2], &arcs);
+        construct_graph_from_arclist(&G, arcs, num_nodes);
         // destroy arcs to save memory
 
     }
