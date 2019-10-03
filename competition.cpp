@@ -2,10 +2,6 @@
 #include <cstring>
 #include "io.h"
 #include "counting.h"
-#if CPUFORWARD
-#include "cpu_forward/graph.h"
-#include "cpu_forward/cpu.h"
-#endif
 using namespace lemon;
 
 int main(int argc, char** argv){
@@ -28,9 +24,6 @@ int main(int argc, char** argv){
 #endif
     int num_nodes, num_edges;
     const char* method_hint = std::getenv("METHOD");
-#if CPUFORWARD    
-    cpu_forward::AdjList adjlist;
-#endif    
     {
 #if VERBOSE && OPENMP
         // check openmp threads number
@@ -45,17 +38,7 @@ int main(int argc, char** argv){
         // data loader block
         std::vector<std::pair<int, int>> arcs;
         std::tie(num_nodes, num_edges) = read_binfile_to_arclist(argv[2], arcs);
-#if CPUFORWARD          
-        if(method_hint == NULL || strcmp(method_hint, "cpu_forward") != 0){
         construct_graph_from_arclist(G, arcs, num_nodes);
-        }
-        else{
-            cpu_forward::Edges& edges = arcs;
-            adjlist = cpu_forward::EdgesToAdjList(edges);
-        }
-#else
-        construct_graph_from_arclist(G, arcs, num_nodes);
-#endif                
         // destroy arcs to save memory
 
     }
@@ -71,14 +54,6 @@ int main(int argc, char** argv){
 #endif
         tc = triangle_count(G, num_edges);
     }
-#if CPUFORWARD    
-    else if(strcmp(method_hint, "cpu_forward") == 0){
-#if VERBOSE
-        std::cout << "using cpu_forward method" << std::endl;
-#endif           
-        tc = cpu_forward::CpuForward(adjlist);
-    }
-#endif    
     else{ // for other method
         std::vector<int> degree_list;
         int max_degree = collect_degree_info(G, degree_list, num_nodes);
