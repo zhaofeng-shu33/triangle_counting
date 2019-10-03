@@ -34,6 +34,7 @@ For competition build, we provide a Makefile which produces `build/main` as the 
 ## Baseline
 
 These results are obtained on a Ubuntu server with 32 Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz.
+
 | dataset | method                      | times(s) |
 |---------|-----------------------------|----------|
 | journal | single threaded node_first  | 63       |
