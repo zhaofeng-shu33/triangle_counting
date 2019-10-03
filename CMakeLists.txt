@@ -20,6 +20,8 @@ if(OPENMP)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 include_directories(${CMAKE_SOURCE_DIR})
+find_package(lemon REQUIRED)
+include_directories(${LEMON_INCLUDE_DIR})
 add_subdirectory(lemontc)
 
 if(ENABLE_TESTING)
