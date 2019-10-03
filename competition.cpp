@@ -5,14 +5,7 @@
 #include "cpu_forward/graph.h"
 #include "cpu_forward/cpu.h"
 using namespace lemon;
-unsigned int get_nodes(const char* filename){
-    if(strcmp(filename, "soc-LiveJournal1.bin") == 0)
-        return 4847571;
-    else if(strcmp(filename, "s24.kron.edgelist.bin") == 0)
-        return 16777216;
-    else
-        return count_nodes(filename);
-}
+
 int main(int argc, char** argv){
     if(argc != 3 || strcmp(argv[1], "-f") != 0){
         std::cout << "Usage: competition -f input.bin" << std::endl;

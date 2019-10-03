@@ -53,7 +53,15 @@ unsigned long triangle_count(const Graph& G, int total_edge){
     iteration_cnt ++;
 #endif
     }
-
+#if VERBOSE && OPENMP
+int actual_num_threads = 0;
+#pragma omp parallel shared(actual_num_threads)
+{
+    #pragma omp critical
+    actual_num_threads = actual_num_threads + 1;
+}
+std::cout << "Num of threads used: " << actual_num_threads << std::endl;
+#endif
 #if TIMECOUNTING
     std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
     std::chrono::system_clock::duration dtn = end_time - start_time;

@@ -35,7 +35,12 @@ Use package manager to install `liblemon` and then use CMake to build the projec
 |---------|-----------------------------|----------|
 | journal | single threaded node_first  | 2088     |
 | journal | single threaded edge_first  | 600      |
+| journal | 16 threads node_first       | 49       |
 
 ## Our method
-Internally, we use directed graph data structure to save space. The arc direction is from i to j if i < j and (i, j) belongs to the edge set.
-For the input bin data, if source node id is no smaller than the target node id, we just ignore this record when processing the data.
+Internally, we use directed graph data structure to save space. The node id is from 0 to |V|-1. The arc id is from 0 to |E|-1. The arc direction is from i to j if i < j and (i, j) belongs to the edge set.
+Once the directed graph is constructed, we provide two methods: edge iteration first and node iteration first method.
+
+### Edge Iteration first
+
+### Node Iteration first

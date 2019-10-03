@@ -4,6 +4,9 @@
 #include <fstream>
 #if VERBOSE
 #include <iostream>
+#if TIMECOUNTING
+#include <chrono>
+#endif
 #endif  
 namespace lemon{
 unsigned long get_edge(std::ifstream& fin){
@@ -27,6 +30,9 @@ std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<s
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
     unsigned long file_size = get_edge(fin);
 #if VERBOSE
+#if TIMECOUNTING
+    std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
+#endif
     std::cout << "Start file reading..." << std::endl;
     int base_counter = file_size / 10 + 1;
 #endif
@@ -69,7 +75,14 @@ std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<s
     }
     int actual_edge_num = arc_exist_map.size();
 #if VERBOSE
+#if TIMECOUNTING
+    std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
+    std::chrono::system_clock::duration dtn = end_time - start_time;
+    float time_used = std::chrono::duration_cast<std::chrono::milliseconds>(dtn).count()/1000.0;
+    std::cout << "File reading finished, Time used: " << time_used << "s" << std::endl;
+#else
     std::cout << "File reading finished" << std::endl;
+#endif     
     std::cout << "Actual node size " << node_id - 1<< std::endl;
     std::cout << "Actual edges " << actual_edge_num << std::endl;
 #endif    
