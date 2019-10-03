@@ -10,12 +10,17 @@ addons:
       - liblemon-dev
       - liblemon1.3.1
       - libgtest-dev
+      - lcov
 install:
   - pip install --user networkx
 script:
   - mkdir build
   - python graph_generator.py
   - cd build
-  - cmake -DENABLE_TESTING=ON ../
+  - cmake -DCODE_COVERAGE=ON -DENABLE_TESTING=ON ../
   - make
   - ./test_alg
+after_success:
+  - lcov --directory . --capture --output-file coverage.info
+  - lcov --remove coverage.info '/usr/*' --output-file coverage.info
+  - bash <(curl -s https://codecov.io/bash) -f coverage.info
