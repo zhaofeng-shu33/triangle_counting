@@ -6,6 +6,7 @@
 #include "counting.h"
 #include "io.h"
 namespace lemon {
+
 TEST(counting, alg) {
     Graph G;
     std::vector<std::pair<int, int> > arcs;

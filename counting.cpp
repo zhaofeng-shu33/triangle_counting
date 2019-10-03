@@ -1,3 +1,4 @@
+// Copyright 2019 zhaofeng-shu33
 #include "counting.h"
 #if VERBOSE
 #include <iostream>
@@ -10,22 +11,22 @@
 #include <omp.h>
 #endif
 namespace lemon{
-int triangle_count_given_edge(const Graph& G, const Graph::Arc& e, const ArcLookUp<Graph>& look_up){
+int triangle_count_given_edge(const Graph& G, const Graph::Arc& e, const ArcLookUp<Graph>& look_up) {
     Graph::Node u = G.source(e);
     Graph::Node v = G.target(e);
     int t_count = 0;
     
-    for(Graph::OutArcIt a(G, u); a != INVALID; ++a){        
+    for (Graph::OutArcIt a(G, u); a != INVALID; ++a){        
         Graph::Node u_target = G.target(a);
         Graph::Arc a2;
-        if(G.id(v) < G.id(u_target))
+        if (G.id(v) < G.id(u_target))
             a2 = look_up(v, u_target);
         else
             a2 = look_up(u_target, v);
         
         t_count += (a2 != INVALID);
     }
-    for(Graph::InArcIt a(G, u); a != INVALID; ++a){        
+    for (Graph::InArcIt a(G, u); a != INVALID; ++a){        
         Graph::Node u_target = G.source(a);
         Graph::Arc a2 = look_up(u_target, v);
         t_count += (a2 != INVALID);
@@ -33,7 +34,7 @@ int triangle_count_given_edge(const Graph& G, const Graph::Arc& e, const ArcLook
     return t_count;
 }
 
-unsigned long triangle_count(const Graph& G, int total_edge){
+unsigned long triangle_count(const Graph& G, int total_edge) {
     ArcLookUp<Graph> look_up(G);
     unsigned long triangle_sum = 0;
 #if VERBOSE
@@ -45,7 +46,7 @@ unsigned long triangle_count(const Graph& G, int total_edge){
 #endif    
 
 #pragma omp parallel for reduction(+:triangle_sum)
-    for(int a = 0; a < total_edge; ++a){
+    for (int a = 0; a < total_edge; ++a){
         triangle_sum += triangle_count_given_edge(G, G.arcFromId(a), look_up);
 #if VERBOSE && !defined OPENMP
     if(iteration_cnt % report_unit == 1)
@@ -62,13 +63,13 @@ unsigned long triangle_count(const Graph& G, int total_edge){
     return triangle_sum / 3;
 }
 
-int triangle_count_given_node(const Graph& G, const Graph::Node& n, const ArcLookUp<Graph>& look_up, const std::vector<int>& degree_list, std::vector<int>& extra_node_list){
+int triangle_count_given_node(const Graph& G, const Graph::Node& n, const ArcLookUp<Graph>& look_up, const std::vector<int>& degree_list, std::vector<int>& extra_node_list) {
     int allowed_node_num = 0;
     int n_id = G.id(n);
     int degree_n = degree_list[n_id];
-    for(Graph::OutArcIt a(G, n); a != INVALID; ++a){
+    for (Graph::OutArcIt a(G, n); a != INVALID; ++a){
         int v_id = G.id(G.target(a));
-        if(degree_list[v_id] > degree_n || (degree_list[v_id] == degree_n && v_id > n_id)){
+        if (degree_list[v_id] > degree_n || (degree_list[v_id] == degree_n && v_id > n_id)){
             extra_node_list[allowed_node_num] = v_id;
             allowed_node_num ++;
         }
@@ -148,5 +149,6 @@ int collect_degree_info(const Graph& G, std::vector<int>& degree_list, int node_
     }
     return max_degree;
 }
-}
+}  // namespace lemon
+
 

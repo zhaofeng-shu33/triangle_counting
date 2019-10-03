@@ -42,7 +42,7 @@ int main(int argc, char** argv){
         // destroy arcs to save memory
 
     }
-    unsigned long tc = 0;
+    int64_t tc = 0;
     if(method_hint == NULL){
         std::vector<int> degree_list;
         int max_degree = collect_degree_info(G, degree_list, num_nodes);
