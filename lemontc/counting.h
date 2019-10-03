@@ -2,7 +2,7 @@
 #pragma once
 #include <vector>
 
-#include "config.h"
+#include "lemontc/config.h"
 
 namespace lemon {
     int64_t triangle_count(const Graph& G, int total_edge);

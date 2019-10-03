@@ -1,5 +1,5 @@
 // Copyright 2019 zhaofeng-shu33
-#include "counting.h"
+#include "lemontc/counting.h"
 
 #include <vector>
 #if VERBOSE || TIMECOUNTING
@@ -63,7 +63,7 @@ int64_t triangle_count(const Graph& G, int total_edge) {
         std::chrono::system_clock::now();
     std::chrono::system_clock::duration dtn =
         end_time - start_time;
-    typedef std::chrono::duration_cast duration_cast;
+    using std::chrono::duration_cast;
     typedef std::chrono::milliseconds milliseconds;
     float time_used = duration_cast<milliseconds>(dtn).count()/1000.0;
     std::cout << "Time used: " << time_used << "s" << std::endl;
@@ -146,9 +146,9 @@ int64_t triangle_count_vertex_iteration(const Graph& G,
         std::chrono::system_clock::now();
     std::chrono::system_clock::duration dtn =
         end_time - start_time;
-    typedef std::chrono::duration_cast duration_cast;
+    using std::chrono::duration_cast;
     typedef std::chrono::milliseconds milliseconds;
-    float time_used = duration_cast<smilliseconds>(dtn).count()/1000.0;
+    float time_used = duration_cast<milliseconds>(dtn).count()/1000.0;
     std::cout << "Time used: " << time_used << "s" << std::endl;
 #endif
     return triangle_sum;

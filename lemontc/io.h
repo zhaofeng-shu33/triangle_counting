@@ -4,7 +4,7 @@
 #include <vector>
 #include <utility>
 
-#include "config.h"
+#include "lemontc/config.h"
 
 namespace lemon {
     void construct_graph_from_arclist(Graph* G,

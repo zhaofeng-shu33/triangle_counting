@@ -2,14 +2,14 @@
 #include <cstring>
 #include <iostream>
 
-#include "io.h"
-#include "counting.h"
+#include "lemontc/io.h"
+#include "lemontc/counting.h"
 
 using namespace lemon;  // NOLINT(build/namespaces)
 
 int main(int argc, char** argv) {
     if (argc != 3 || strcmp(argv[1], "-f") != 0) {
-        std::cout << "Usage: competition -f input.bin" << std::endl;
+        std::cout << "Usage: program -f input.bin" << std::endl;
         exit(-1);
     }
     // check input file exists
