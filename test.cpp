@@ -4,8 +4,9 @@
 
 #include <gtest/gtest.h>  // NOLINT(build/include_order)
 
-#include "counting.h"
-#include "io.h"
+#include "lemontc/counting.h"
+#include "lemontc/io.h"
+
 namespace lemon {
 
 TEST(counting, alg) {
