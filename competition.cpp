@@ -45,7 +45,7 @@ int main(int argc, char** argv){
     int64_t tc = 0;
     if(method_hint == NULL){
         std::vector<int> degree_list;
-        int max_degree = collect_degree_info(G, degree_list, num_nodes);
+        int max_degree = collect_degree_info(G, &degree_list, num_nodes);
         tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
     }
     else if(strcmp(method_hint, "edge_first") == 0){
@@ -56,7 +56,7 @@ int main(int argc, char** argv){
     }
     else{ // for other method
         std::vector<int> degree_list;
-        int max_degree = collect_degree_info(G, degree_list, num_nodes);
+        int max_degree = collect_degree_info(G, &degree_list, num_nodes);
         tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
     }
     std::cout << "There are " << tc << " triangles in the input graph." << std::endl;

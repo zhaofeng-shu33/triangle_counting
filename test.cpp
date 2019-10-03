@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-#include <gtest/gtest.h>
+#include <gtest/gtest.h>  // NOLINT(build/include_order)
+
 #include "counting.h"
 #include "io.h"
 namespace lemon {
@@ -29,11 +30,6 @@ TEST(io, io_bin) {
                  std::logic_error);
 }
 
-TEST(io, get_node_num) {
-    unsigned int node_num = count_nodes("test_io.bin");
-    EXPECT_EQ(node_num, 3);
-}
-
 TEST(counting, collect_degree_info) {
     Graph G;
     std::vector<std::pair<int, int> > arcs;
@@ -41,7 +37,7 @@ TEST(counting, collect_degree_info) {
     arcs.push_back(std::make_pair(1, 2));
     G.build(3, arcs.begin(), arcs.end());
     std::vector<int> degree_list;
-    int max_degree = collect_degree_info(G, degree_list, 3);
+    int max_degree = collect_degree_info(G, &degree_list, 3);
     EXPECT_EQ(max_degree, 2);
     EXPECT_EQ(degree_list.size(), 3);
     EXPECT_EQ(degree_list[1], 2);
@@ -55,7 +51,7 @@ TEST(counting, alg_node_first) {
     arcs.push_back(std::make_pair(1, 2));
     G.build(3, arcs.begin(), arcs.end());
     std::vector<int> degree_list;
-    int max_degree = collect_degree_info(G, degree_list, 3);
+    int max_degree = collect_degree_info(G, &degree_list, 3);
     int tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
     EXPECT_EQ(tc, 1);
 }
@@ -67,7 +63,7 @@ TEST(counting, alg_node_first_zero_triangle) {
     arcs.push_back(std::make_pair(1, 2));
     G.build(3, arcs.begin(), arcs.end());
     std::vector<int> degree_list;
-    int max_degree = collect_degree_info(G, degree_list, 3);
+    int max_degree = collect_degree_info(G, &degree_list, 3);
     int tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
     EXPECT_EQ(tc, 0);
 }

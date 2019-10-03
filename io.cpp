@@ -1,14 +1,18 @@
 // Copyright 2019 zhaofeng-shu33
 #include "io.h"
-#include <string>
-#include <map>
+
 #include <fstream>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 #if VERBOSE
 #include <iostream>
 #if TIMECOUNTING
 #include <chrono>  // NOLINT(build/c++11)
 #endif
 #endif
+
 namespace lemon {
 int64_t get_edge(std::ifstream& fin) {
     fin.seekg(0, fin.end);
@@ -21,13 +25,15 @@ int64_t get_edge(std::ifstream& fin) {
     return edge_size / 8;
 }
 
-std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<std::pair<int, int>>* arcs) {
+std::pair<int, int> read_binfile_to_arclist(const char* file_name,
+                    std::vector<std::pair<int, int>>* arcs) {
     std::ifstream fin;
     fin.open(file_name, std::ifstream::binary | std::ifstream::in);
     int64_t file_size = get_edge(fin);
 #if VERBOSE
 #if TIMECOUNTING
-    std::chrono::system_clock::time_point start_time = std::chrono::system_clock::now();
+    std::chrono::system_clock::time_point start_time =
+        std::chrono::system_clock::now();
 #endif
     std::cout << "Start file reading..." << std::endl;
     int base_counter = file_size / 10 + 1;
@@ -40,7 +46,8 @@ std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<s
     for (int64_t i = 0; i < file_size; i++) {
 #if VERBOSE
     if (i % base_counter == 1)
-        std::cout << 10 * i / base_counter << "% processed for input file"  << std::endl;
+        std::cout << 10 * i / base_counter <<
+                     "% processed for input file"  << std::endl;
 #endif
         fin.read(u_array, 4);
         fin.read(v_array, 4);
@@ -71,10 +78,15 @@ std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<s
     int actual_edge_num = arc_exist_map.size();
 #if VERBOSE
 #if TIMECOUNTING
-    std::chrono::system_clock::time_point end_time = std::chrono::system_clock::now();
-    std::chrono::system_clock::duration dtn = end_time - start_time;
-    float time_used = std::chrono::duration_cast<std::chrono::milliseconds>(dtn).count()/1000.0;
-    std::cout << "File reading finished, Time used: " << time_used << "s" << std::endl;
+    std::chrono::system_clock::time_point end_time =
+        std::chrono::system_clock::now();
+    std::chrono::system_clock::duration dtn =
+        end_time - start_time;
+    typedef std::chrono::duration_cast duration_cast;
+    typedef std::chrono::milliseconds milliseconds;
+    float time_used = duration_cast<milliseconds>(dtn).count()/1000.0;
+    std::cout << "File reading finished, Time used: " <<
+                 time_used << "s" << std::endl;
 #else
     std::cout << "File reading finished" << std::endl;
 #endif
@@ -83,33 +95,21 @@ std::pair<int, int> read_binfile_to_arclist(const char* file_name, std::vector<s
 #endif
     fin.close();
     arcs->reserve(actual_edge_num);
-    for (std::map<std::pair<int, int>, bool>::iterator it = arc_exist_map.begin(); it != arc_exist_map.end(); ++it) {
-        arcs->push_back(std::make_pair(it->first.first -1, it->first.second - 1));
+    std::map<std::pair<int, int>, bool>::iterator it;
+    for (it = arc_exist_map.begin();
+         it != arc_exist_map.end(); ++it) {
+        arcs->push_back(std::make_pair(it->first.first -1,
+                        it->first.second - 1));
     }
     return std::make_pair(node_id - 1, actual_edge_num);
 }
 
-void construct_graph_from_arclist(Graph* G, const std::vector<std::pair<int, int> >& arcs, int node_size) {
+void construct_graph_from_arclist(Graph* G,
+        const std::vector<std::pair<int, int> >& arcs, int node_size) {
     G->build(node_size, arcs.begin(), arcs.end());
 #if VERBOSE
     std::cout << "Graph construction finished" << std::endl;
 #endif
 }
 
-int count_nodes(const char* file_name) {
-    std::ifstream fin;
-    fin.open(file_name, std::ifstream::binary | std::ifstream::in);
-    int edge_size = get_edge(fin);
-    char u_array[4];
-    int *u;
-    int max_id = 0;
-    for (int i = 0; i < 2 * edge_size; i++) {
-        fin.read(u_array, 4);
-        u = (int*)u_array;
-        if (max_id < *u)
-            max_id = *u;
-    }
-    fin.close();
-    return max_id + 1;
-}
 }  // namespace lemon
