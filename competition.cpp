@@ -61,15 +61,15 @@ int main(int argc, char** argv){
     }
     unsigned long tc = 0;
     if(method_hint == NULL){
-        tc = triangle_count(G, num_edges);
-    }
-    else if(strcmp(method_hint, "node_first") == 0){
-#if VERBOSE
-        std::cout << "using node_first method" << std::endl;
-#endif
         std::vector<int> degree_list;
         int max_degree = collect_degree_info(G, degree_list, num_nodes);
         tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
+    }
+    else if(strcmp(method_hint, "edge_first") == 0){
+#if VERBOSE
+        std::cout << "using edge_first method" << std::endl;
+#endif
+        tc = triangle_count(G, num_edges);
     }
 #if CPUFORWARD    
     else if(strcmp(method_hint, "cpu_forward") == 0){
@@ -79,8 +79,10 @@ int main(int argc, char** argv){
         tc = cpu_forward::CpuForward(adjlist);
     }
 #endif    
-    else{ // for other unknown method
-        tc = triangle_count(G, num_edges);
+    else{ // for other method
+        std::vector<int> degree_list;
+        int max_degree = collect_degree_info(G, degree_list, num_nodes);
+        tc = triangle_count_vertex_iteration(G, degree_list, max_degree);
     }
     std::cout << "There are " << tc << " triangles in the input graph." << std::endl;
     return 0;

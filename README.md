@@ -1,5 +1,5 @@
 [![Build Status](https://api.travis-ci.com/zhaofeng-shu33/triangle_counting.svg?branch=master)](https://travis-ci.com/zhaofeng-shu33/triangle_counting/)
-
+[![codecov](https://codecov.io/gh/zhaofeng-shu33/triangle_counting/branch/master/graph/badge.svg)](https://codecov.io/gh/zhaofeng-shu33/triangle_counting)
 # format of bin data file
 
 为二进制文件，为顺序存放的边表。每条边包含两个顶点（源顶点和目的顶点，各占4个字节），边的存储长度为8个字节，文件的存储格式为：
@@ -33,7 +33,7 @@ For competition build, we provide a Makefile which produces `build/main` as the 
 
 ## Baseline
 
-These results are obtained on a Ubuntu server with 32 Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz.
+These results are obtained on a Ubuntu server with 32 CPU cores of Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz.
 
 | dataset | method                      | times(s) |
 |---------|-----------------------------|----------|
