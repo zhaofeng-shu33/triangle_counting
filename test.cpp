@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include "counting.h"
-#include "test_tools.h"
 #include "io.h"
 using namespace lemon;
 TEST(counting, alg){

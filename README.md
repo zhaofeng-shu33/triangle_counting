@@ -23,7 +23,9 @@ The homepage of LiveJournal dataset is hosted at [stanford](https://snap.stanfor
 ## Our program
 We use a naive method to count the triangles in the graph. The basic routine is a single thread counting function.
 
-Use package manager to install `liblemon` and then use CMake to build the project.
+Use package manager to install `liblemon` and then use CMake to build the project in development.
+
+For competition build, we provide a Makefile which produces `build/main` as the final executable with OpenMP enabled.
 
 ## Reference
 
@@ -31,11 +33,13 @@ Use package manager to install `liblemon` and then use CMake to build the projec
 
 ## Baseline
 
+These results are obtained on a Ubuntu server with 32 Intel(R) Xeon(R) CPU E5-2620 v4 @ 2.10GHz.
 | dataset | method                      | times(s) |
 |---------|-----------------------------|----------|
-| journal | single threaded node_first  | 2088     |
-| journal | single threaded edge_first  | 600      |
-| journal | 16 threads node_first       | 49       |
+| journal | single threaded node_first  | 63       |
+| journal | single threaded edge_first  | 610      |
+| journal | 32 threads node_first       | 15       |
+| journal | 32 threads edge_first       | 102      |
 
 ## Our method
 Internally, we use directed graph data structure to save space. The node id is from 0 to |V|-1. The arc id is from 0 to |E|-1. The arc direction is from i to j if i < j and (i, j) belongs to the edge set.
@@ -43,4 +47,9 @@ Once the directed graph is constructed, we provide two methods: edge iteration f
 
 ### Edge Iteration first
 
+We enumerate very edge of the graph first. For each edge e of the graph, we count how many triangles there are including this edge. For this inner task, we are given the graph and edge (u,v). We enumerate every incident node w of u and figure out whether there is an edge (w,v) or not. Notice that the existence test of (w,v) has time complexity log d where d is the degree of node w.
+
 ### Node Iteration first
+
+We enumerate every node of the graph first. For each node n of the graph, we count how many triangles there are including this node. For this inner task, we are given the graph and node n. We enumerate all its incident node pairs u and v which have larger degrees than n. If the degrees are same, we choose nodes with higher node id. Also, the existence test of (w,v) has time complexity log d where d is the degree of node w. This method is faster than the previous one for two reasons. One reason is that every triangle is counted only once. The other reason is that the sorting of degree makes each enumeration of (u,v) pairs not too much. That is, we save time of the total number of existence test.
+There are also two drawbacks of this method. Firstly, it needs extra time to compute the degree of each node. This time is not included when comparing node-first with edge-first method. Secondly, it needs extra space to save the degree of each node and those nodes which have larger degree than node n.
