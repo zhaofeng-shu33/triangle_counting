@@ -28,6 +28,16 @@ int main(int argc, char** argv){
     const char* method_hint = std::getenv("METHOD");
     cpu_forward::AdjList adjlist;
     {
+#if VERBOSE && OPENMP
+        // check openmp threads number
+        int actual_num_threads = 0;
+        #pragma omp parallel shared(actual_num_threads)
+        {
+            #pragma omp critical
+            actual_num_threads = actual_num_threads + 1;
+        }
+        std::cout << "Num of threads used: " << actual_num_threads << std::endl;
+#endif        
         // data loader block
         std::vector<std::pair<int, int>> arcs;
         std::tie(num_nodes, num_edges) = read_binfile_to_arclist(argv[2], arcs);
