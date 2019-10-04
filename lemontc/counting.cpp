@@ -100,7 +100,7 @@ int triangle_count_given_node(const Graph& G,
         for (int j = i+1; j < allowed_node_num; j++) {
             Graph::Node j_node = G.nodeFromId((*extra_node_list)[j]);
             Graph::Arc a;
-            if (extra_node_list[i] < extra_node_list[j])
+            if ((*extra_node_list)[i] < (*extra_node_list)[j])
                 a = look_up(i_node, j_node);
             else
                 a = look_up(j_node, i_node);

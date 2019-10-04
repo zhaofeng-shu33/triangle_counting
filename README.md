@@ -4,7 +4,7 @@
 
 ## How to build
 
-Use package manager to install `liblemon` and then use CMake to generate the build recipe.
+Use package manager to install `liblemon` and then use `CMake` to generate the build recipe.
 
 ## How to install
 ```shell
