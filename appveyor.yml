@@ -2,6 +2,8 @@ version: 1.0.{build}
 image: Visual Studio 2019
 configuration: Release
 platform: x64
+environment:
+  VCPKG_ROOT: C:\Tools\vcpkg
 install:
 - cmd: >-        
     IF NOT EXIST "C:\Tools\vcpkg\installed\x64-windows\include\lemon\config.h" vcpkg install liblemon:x64-windows gtest:x64-windows
@@ -16,7 +18,7 @@ build_script:
     
     cd build
     
-    cmake -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE=C:\Tools\vcpkg\scripts\buildsystems\vcpkg.cmake -DENABLE_TESTING=ON ..
+    cmake -DVCPKG_TARGET_TRIPLET=x64-windows -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%\scripts\buildsystems\vcpkg.cmake -DENABLE_TESTING=ON ..
     
     cmake --build . --config Release
     

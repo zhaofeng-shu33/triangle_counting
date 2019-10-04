@@ -32,4 +32,3 @@ if(ENABLE_TESTING)
   target_link_libraries(test_alg lemontc ${GTEST_MAIN_LIBRARY} ${GTEST_LIBRARY} Threads::Threads)
   add_test(NAME test_alg COMMAND test_alg)
 endif()
-
