@@ -39,6 +39,7 @@ These results are obtained on a Ubuntu server with 32 CPU cores of Intel(R) Xeon
 | journal | 32 threads node_first       | 15       |
 | journal | 32 threads edge_first       | 102      |
 | kron    | single threaded node_first  | 16567    |
+| kron    | 32 threads node_first       | 11706    |
 
 ## Method used in detail
 Internally, we use directed graph data structure to save space. The node id is from 0 to |V|-1. The arc id is from 0 to |E|-1. The arc direction is from i to j if i < j and (i, j) belongs to the edge set.
