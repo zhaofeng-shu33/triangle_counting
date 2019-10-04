@@ -1,5 +1,6 @@
 # Triangle Counting
 [![Build Status](https://api.travis-ci.com/zhaofeng-shu33/triangle_counting.svg?branch=master)](https://travis-ci.com/zhaofeng-shu33/triangle_counting/)
+[![Windows](https://ci.appveyor.com/api/projects/status/github/zhaofeng-shu33/triangle_counting?branch=master&svg=true)](https://ci.appveyor.com/project/zhaofeng-shu33/triangle-counting)
 [![codecov](https://codecov.io/gh/zhaofeng-shu33/triangle_counting/branch/master/graph/badge.svg)](https://codecov.io/gh/zhaofeng-shu33/triangle_counting)
 
 ## How to build
