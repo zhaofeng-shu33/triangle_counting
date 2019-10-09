@@ -1,0 +1,17 @@
+/**
+\mainpage 
+
+\section Introduction
+
+<b>lemontc</b> is triangle counting C++ library with backend graph structure in <a href="http://lemon.cs.elte.hu">lemon</a>, which
+is a C++ template library of graph.
+
+You are free to use it in your commercial or
+non-commercial applications under very permissive
+\ref lemontclicense "license terms".
+
+
+The project is maintained by 
+<a href="https://github.com/zhaofeng-shu33">zhaofeng-shu33</a>.
+
+*/

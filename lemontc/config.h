@@ -5,6 +5,7 @@
   */
 #pragma once
 #include <lemon/static_graph.h>
+//! lemon original namespace
 namespace lemon {
     //! \typedef Graph
     typedef StaticDigraph Graph;
