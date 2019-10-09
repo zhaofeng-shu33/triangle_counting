@@ -110,7 +110,6 @@ int triangle_count_given_node(const Graph& G,
     return t_count;
 }
 
-//! follow the algorithm in the Stanford lecture notes
 int64_t triangle_count_vertex_iteration(const Graph& G,
             const std::vector<int>& degree_list,
             int max_degree) {

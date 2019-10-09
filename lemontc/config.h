@@ -1,5 +1,6 @@
 // Copyright 2019 zhaofeng-shu33
 /** \file config.h
+  * \brief configuration
   * lemon triangle counter configuration header
   */
 #pragma once
