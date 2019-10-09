@@ -1,3 +1,5 @@
 .vs
+docs/lemon.tag
+docs/build
 .vscode
 build*
