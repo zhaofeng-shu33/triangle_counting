@@ -28,7 +28,7 @@ Once the directed graph is constructed, we provide two methods: edge iteration f
 
 ### Edge Iteration first
 
-We enumerate very edge of the graph first. For each edge e of the graph, we count how many triangles there are including this edge. For this inner task, we are given the graph and edge (u,v). We enumerate every incident node w of u and figure out whether there is an edge (w,v) or not. Notice that the existence test of (w,v) has time complexity log d where d is the degree of node w.
+We enumerate every edge of the graph first. For each edge e of the graph, we count how many triangles there are including this edge. For this inner task, we are given the graph and edge (u,v). We enumerate every incident node w of u and figure out whether there is an edge (w,v) or not. Notice that the existence test of (w,v) has time complexity log d where d is the degree of node w.
 
 ### Node Iteration first
 
