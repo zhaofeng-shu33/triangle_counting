@@ -82,7 +82,7 @@ std::pair<int, int> read_binfile_to_arclist(const char* file_name,
         std::chrono::system_clock::now();
     std::chrono::system_clock::duration dtn =
         end_time - start_time;
-    typedef std::chrono::duration_cast duration_cast;
+    using std::chrono::duration_cast;
     typedef std::chrono::milliseconds milliseconds;
     float time_used = duration_cast<milliseconds>(dtn).count()/1000.0;
     std::cout << "File reading finished, Time used: " <<
