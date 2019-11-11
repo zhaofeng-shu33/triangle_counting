@@ -42,7 +42,7 @@ std::pair<int, int> read_binfile_to_arclist(const char* file_name,
     std::cout << "num of edges before cleanup: " << file_size << std::endl;
 #endif
     arcs.resize(file_size);
-    fin.read(reinterpret_cast<char*>arcs.data(),
+    fin.read(reinterpret_cast<char*>(arcs.data()),
         2 * file_size * sizeof(int));
     int node_num = 0;
     for (std::vector<std::pair<int, int>>::iterator it = arcs.begin();
